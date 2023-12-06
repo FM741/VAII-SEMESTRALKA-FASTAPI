@@ -24,6 +24,7 @@ input {
 
 }
 
+
 button {
     font-family: 'open_sansregular', Times, serif;
 }
@@ -315,6 +316,10 @@ footer {
     border-bottom: 1px white solid;
     outline: none;
     font-size: 18px;
+}
+
+.form-row input:invalid {
+    border-bottom: 1px red solid;
 }
 
 .form-row input:focus {

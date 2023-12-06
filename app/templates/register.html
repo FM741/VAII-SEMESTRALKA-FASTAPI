@@ -36,31 +36,31 @@
                 <div class="form-col">
                     <div class="form-row">
                         <label for="username">Username</label> <br>
-                        <input type="text" name="username" id="username" placeholder="Enter username...">
+                        <input type="text" name="username" id="username" placeholder="Enter username..." required minlength="5" maxlength="24">
                     </div>
                     <div class="form-row">
                         <label for="password">Password</label> <br>
-                        <input type="password" name="password" id="password" placeholder="Enter password...">
+                        <input type="password" name="password" id="password" placeholder="Enter password..." required minlength="5">
                     </div>
                     <div class="form-row">
                         <label for="passcheck">Repeat Password</label> <br>
-                        <input type="password" id="passcheck" placeholder="Enter password again...">
+                        <input type="password" id="passcheck" placeholder="Enter password again..." required>
                     </div>
                     <div class="form-row">
                         <div class="fs-big"><b> Please select your gender: </b></div>
                     </div>
                     <div class="form-row">
-                        <input type="radio" name="gender" value="male" id="male">
+                        <input type="radio" name="gender" value="male" id="male" required>
                         <label for="male" class="fs-medium">
                             Male
                         </label>
 
-                        <input type="radio" name="gender" value="female" id="female">
+                        <input type="radio" name="gender" value="female" id="female" required>
                         <label for="female" class="fs-medium">
                             Female
                         </label>
 
-                        <input type="radio" name="gender" value="other" id="other">
+                        <input type="radio" name="gender" value="other" id="other" required>
                         <label for="other" class="fs-medium">
                             Other
                         </label>
