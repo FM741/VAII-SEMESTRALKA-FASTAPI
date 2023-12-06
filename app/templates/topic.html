@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/css/styles.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon/favicon-16x16.png">
+    <title>Cats;Gate</title>
+
+</head>
+<body>
+<div class="index-main">
+    <div id="navbar" class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-collapse">
+                <div class="navbar-collapse-content">
+                    <ul>
+                        <li><a href="/"> Home </a></li>
+                        <li><a href="/register"> Register </a></li>
+                        <li><a href="/login"> Login </a></li>
+                    </ul>
+                </div>
+            </div>
+            <ul class="nav-list">
+                <li><a href="/"> Cats;Gate </a></li>
+                <li><a href="/register"> Register </a></li>
+                <li><a href="/login"> Login </a></li>
+            </ul>
+            <div class="navbar-logo"></div>
+        </div>
+    </div>
+    <div class="wrapper-content">
+        <div class="topic-content">
+            <h3 class="topic-content-name" onclick="window.history.back()"> <= {{ topic.name }}</h3>
+            <hr>
+            <div class="topic-content-header align-center">
+                <h4 class="topic-content-author">Author</h4>
+                <div class="vl"></div>
+                <h4 class="topic-content-message">Message</h4>
+            </div>
+            <hr>
+        </div>
+
+
+        {% for post in topic.posts %}
+            <div class="topic-content">
+                <div class="topic-content-body ">
+                    <div class="topic-content-author align-center">
+                        <img class="user-image" src="img/user.png" alt="User image"> <br>
+                        <p class="username">User01</p>
+                        <button id="delete_post" onclick="deletePost()">Remove Post</button>
+                        <button id="edit_post" onclick="window.location = '/post/{{ post.id }}'">Edit Post</button>
+
+                    </div>
+                    <div class="vl"></div>
+                    <div class="topic-content-message">
+                        <div class="topic-content-message-header">{{ post.header }}</div>
+                        <div class="topic-content-message-body">{{ post.body }}</div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="post_id_hidden" value="{{ post.id }}">
+            <div class="space"></div>
+        {% endfor %}
+
+
+    </div>
+    <footer>
+        <a href="/topic/{{ topic.id }}/add">Post Reply</a>
+    </footer>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/static/js/scripts.js"></script>
+</body>
+</html>

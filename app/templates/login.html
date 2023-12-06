@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/css/styles.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon/favicon-16x16.png">
+    <title>Cats;Gate - Login</title>
+</head>
+<body>
+<div class="index-main">
+    <div id="navbar" class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-collapse">
+                <div class="navbar-collapse-content">
+                    <ul>
+                        <li><a href="/"> Home </a></li>
+                        <li><a href="/register"> Register </a></li>
+                    </ul>
+                </div>
+            </div>
+            <ul class="nav-list">
+                <li><a href="/"> Cats;Gate </a></li>
+                <li><a href="/register"> Register </a></li>
+            </ul>
+            <div class="navbar-logo"></div>
+        </div>
+    </div>
+    <div class="wrapper-content">
+        <div class="login form">
+            <div class="form-row">
+                <h2>Login</h2>
+            </div>
+            <form action="login-form.php">
+                <div class="form-col error">
+                    <div class="form-row">
+                        <label for="username">Username</label> <br>
+                        <input type="text" name="username" id="username" placeholder="Enter username...">
+                    </div>
+                    <div class="form-row">
+                        <label for="password">Password</label> <br>
+                        <input type="password" name="password" id="password" placeholder="Enter password...">
+                    </div>
+                    <div class="form-row">
+                        <button>Login</button>
+                    </div>
+                    <div class="form-row">
+                        <a href="passreset.html" class="forgot-password"> Forgot password? </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <footer></footer>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/static/js/scripts.js"></script>
+</body>
+</html>

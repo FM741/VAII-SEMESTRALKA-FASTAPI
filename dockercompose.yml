@@ -1,0 +1,31 @@
+# docker-compose.yml
+
+version: '1.0'
+
+services:
+  web:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - 127.0.0.1:80:80
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/PostgresDB
+    depends_on:
+      - db
+  db:
+    image: postgres:16-alpine
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    ports:
+      - 127.0.0.1:5432:5432
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=PostgresDB
+    restart: always
+
+volumes:
+  postgres_data:
