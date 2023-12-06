@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/static/css/styles.css" rel="stylesheet">
-    <link rel="icon" type="image/png" sizes="32x32" href="static/img/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="static/img/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon/favicon-16x16.png">
     <title>Cats;Gate</title>
-
 </head>
 <body>
 <div class="index-main">
@@ -23,7 +22,7 @@
                 </div>
             </div>
             <ul class="nav-list">
-                <li><a href="/"> Cats;Gate</a></li>
+                <li><a href="/"> Cats;Gate </a></li>
                 <li><a href="/register"> Register </a></li>
                 <li><a href="/login"> Login </a></li>
             </ul>
@@ -31,24 +30,27 @@
         </div>
     </div>
     <div class="wrapper-content">
-        <div class="fit">
-            <div class="form-row error-status">
-                {{ exception.status_code }}
-            </div>
-            <div class="form-row error-detail">
-                {{ exception.detail }}
-            </div>
-            {% if exception.headers.error_place == "forum" %}
-                <div class="form-row error-detail">
-                    <a href="/add"> ADD FORUM </a>
+        <div class="login form">
+            <form onsubmit="editForum({{ forum.id }}); return false">
+                <div class="form-row">
+                    <h2>Add Forum</h2>
                 </div>
-            {% endif %}
+                <div class="form-col">
+                    <div class="form-row">
+                        <label for="forum_name">Edit Forum Name</label> <br>
+                        <input type="text" name="forum_name" id="forum_name" placeholder="Enter forum name...">
+                    </div>
+                    <div class="form-row">
+                        <button id="forum_add">Submit</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-    <footer>
-    </footer>
+    <footer></footer>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/static/js/scripts.js"></script>
+
 </body>
 </html>

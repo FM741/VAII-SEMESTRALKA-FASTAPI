@@ -37,21 +37,24 @@
             <div class="content-last-post">Last post</div>
         </div>
         {% for forum in forums %}
-        <div class="content ">
-            <a href="/forum/{{ forum.id }}">
-                <div class="content-forum"> {{ forum.name }}</div>
-            </a>
-            <button onclick="deleteForum({{forum.id}})">
-                X
-            </button>
-            <div class="content-posts align-center">{{ forum.topics|count }}</div>
-            {% if forum.topics %}
-            <div class="content-last-post align-center">{{ forum.topics[-1].id}}</div>
-            {% else %}
-            <div class="content-last-post align-center">-</div>
-            {% endif %}
+            <div class="content ">
+                <a href="/forum/{{ forum.id }}">
+                    <div class="content-forum"> {{ forum.name }}</div>
+                </a>
+                <button onclick="deleteForum({{ forum.id }})">
+                    X
+                </button>
+                <button onclick="window.location = '/edit/{{ forum.id }}'">
+                    E
+                </button>
+                <div class="content-posts align-center">{{ forum.topics|count }}</div>
+                {% if forum.topics %}
+                    <div class="content-last-post align-center">{{ forum.topics[-1].id }}</div>
+                {% else %}
+                    <div class="content-last-post align-center">-</div>
+                {% endif %}
 
-        </div>
+            </div>
         {% endfor %}
     </div>
     <footer>

@@ -1,4 +1,3 @@
-
 function scrollNavbar() {
     if (window.scrollY >= navbarPos) {
         navbar.classList.add("sticky");
@@ -37,9 +36,31 @@ const submitForum = () => {
             console.log("success", data);
             window.location = "/";
         },
+        error: function (xhr, error) {
+            alert("STATUS: "+xhr.status+"\nCannot create -"+ JSON.parse(xhr.responseText).detail);
+        }
     });
 }
 
+const editForum = (forum_id) => {
+    let forum = {
+        "name": $("#forum_name").val()
+    };
+    console.log(forum)
+    $.ajax({
+        url: "/crud/forum/" + forum_id,
+        type: "PATCH",
+        data: JSON.stringify(forum),
+        dataType: "json",
+        contentType: "application/json",
+        success: function () {
+            window.location = document.referrer
+        },
+        error: function (xhr, error) {
+            alert("STATUS: "+xhr.status+"\n"+ JSON.parse(xhr.responseText).detail);
+        }
+    });
+}
 const submitTopic = () => {
     console.log('request_body_param pushed')
     let topic = {
@@ -60,6 +81,24 @@ const submitTopic = () => {
                 "topic_id": data.id
             };
             addPost(post)
+        },
+    });
+}
+
+const editTopic = (topic_id) => {
+    let topic = {
+        "name": $("#topic_name").val(),
+        "forum_id": $("#select_forum").val()
+    };
+    console.log(topic)
+    $.ajax({
+        url: "/crud/topic/" + topic_id,
+        type: "PATCH",
+        data: JSON.stringify(topic),
+        dataType: "json",
+        contentType: "application/json",
+        success: function (data) {
+            window.location = "/forum/" + data.forum_id;
         },
     });
 }
@@ -125,8 +164,7 @@ const deletePost = () => {
     });
 }
 
-const editPost = () => {
-    let post_id = $("#post_id_hidden").val();
+const editPost = (post_id) => {
     let post = {
         "header": $("#post_header").val(),
         "body": $("#post_body").val()

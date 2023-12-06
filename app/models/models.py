@@ -12,7 +12,7 @@ class Forum(Base):
     __tablename__ = "forums"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(60))
+    name: Mapped[str] = mapped_column(String(60), unique=True)
     topics: Mapped[List["Topic"]] = relationship("Topic", back_populates="forum", cascade="all,delete,delete-orphan", passive_deletes=True)
 
 
@@ -20,7 +20,7 @@ class Topic(Base):
     __tablename__ = "topics"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(60))
+    name: Mapped[str] = mapped_column(String(60), unique=True)
 
     forum_id: Mapped[int] = mapped_column(ForeignKey("forums.id", ondelete="CASCADE"))
     forum: Mapped["Forum"] = relationship(back_populates="topics")

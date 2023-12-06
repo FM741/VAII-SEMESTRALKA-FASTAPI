@@ -25,7 +25,7 @@ def get_html_index(request: Request, db: Session = Depends(get_db)):
 
 
 @router.get("/add", response_class=HTMLResponse)
-def get_html_forum_by_id(request: Request, db: Session = Depends(get_db)):
+def get_html_create_forum(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse("forum_add.html", {"request": request})
 
 
@@ -38,8 +38,21 @@ def get_html_forum_by_id(request: Request, forum_id: int, db: Session = Depends(
 
 
 @router.get("/forum/{forum_id}/add", response_class=HTMLResponse)
-def get_html_topic_reply(request: Request, db: Session = Depends(get_db)):
+def get_html_create_topic(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse("topic_add.html", {"request": request})
+
+
+@router.get("/edit/{forum_id}", response_class=HTMLResponse)
+def get_html_patch_forum(request: Request, forum_id: int, db: Session = Depends(get_db)):
+    forum_db = forum.get_forum_by_id_db(forum_id, db)
+    return templates.TemplateResponse("forum_edit.html", {"request": request, "forum": forum_db})
+
+
+@router.get("/topic/{topic_id}/edit", response_class=HTMLResponse)
+def get_html_patch_topic(request: Request, topic_id: int, db: Session = Depends(get_db)):
+    topic_db = topic.get_by_topic_id_db(topic_id, db)
+    forum_db = forum.get_all_forums_db(db)
+    return templates.TemplateResponse("topic_edit.html", {"request": request, "topic": topic_db, "forums": forum_db})
 
 
 @router.get("/topic/{topic_id}", response_class=HTMLResponse)
@@ -49,7 +62,7 @@ def get_html_topic_by_id(request: Request, topic_id: int, db: Session = Depends(
 
 
 @router.get("/topic/{topic_id}/add", response_class=HTMLResponse)
-def get_html_topic_reply(request: Request, db: Session = Depends(get_db)):
+def get_html_create_post(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse("post_add.html", {"request": request})
 
 
@@ -64,7 +77,7 @@ def get_html_register(request: Request, db: Session = Depends(get_db)):
 
 
 @router.get("/post/{post_id}", response_class=HTMLResponse)
-def get_html_post_edit(request: Request, post_id: int, db: Session = Depends(get_db)):
+def get_html_patch_post(request: Request, post_id: int, db: Session = Depends(get_db)):
     post_db = post.get_by_post_id_db(post_id, db)
     return templates.TemplateResponse("post_edit.html", {"request": request, "post": post_db})
 

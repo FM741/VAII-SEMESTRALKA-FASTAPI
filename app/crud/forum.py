@@ -2,7 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models import models
-from app.schemas.forum import ForumCreate
+from app.schemas.forum import ForumCreate, ForumBase
 
 
 def get_all_forums_db(db: Session):
@@ -30,6 +30,17 @@ def delete_forum_by_id_db(forum_id: int, db: Session):
     db.delete(forum)
     db.commit()
     return {"deleted": forum}
+
+
+def edit_forum_by_id_db(forum_id: int, forum_update: ForumBase, db: Session):
+    forum_db = db.get(models.Forum, forum_id)
+    forum_dict = forum_update.model_dump(exclude_unset=True)
+    for key, value in forum_dict.items():
+        setattr(forum_db, key, value)
+    db.add(forum_db)
+    db.commit()
+    db.refresh(forum_db)
+    return forum_db
 
 #
 # def update_topic_by_id(topic_id: int, topic_update: TopicUpdate, db: Session):

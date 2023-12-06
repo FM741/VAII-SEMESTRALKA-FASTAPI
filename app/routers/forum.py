@@ -1,10 +1,13 @@
 from fastapi import APIRouter, HTTPException
 from fastapi import Depends
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.crud import forum as crud_forum
 from app.dependencies import get_db
-from app.schemas.forum import ForumDB, ForumCreate
+from app.models import models
+from app.schemas.exception import ExceptionHandler
+from app.schemas.forum import ForumDB, ForumCreate, ForumBase
 
 router = APIRouter(dependencies=[Depends(get_db)], tags=["Forum"], prefix="/crud/forum")
 
@@ -27,9 +30,20 @@ def get_forum_by_id(forum_id: int, db: Session = Depends(get_db)):
 
 @router.post("/add", response_model=ForumDB)
 def create_forum(forum: ForumCreate, db: Session = Depends(get_db)):
+    stmt = select(models.Forum).where(models.Forum.name == forum.name)
+    if db.execute(stmt).first() is not None:
+        raise HTTPException(status_code=444, detail="This forum already exists")
     return crud_forum.create_forum_db(forum, db)
 
 
 @router.delete("/{forum_id}")
 def delete_forum_by_id(forum_id: int, db: Session = Depends(get_db)):
     return crud_forum.delete_forum_by_id_db(forum_id, db)
+
+
+@router.patch("/{forum_id}")
+def edit_forum_by_id(forum_id: int, forum: ForumBase, db: Session = Depends(get_db)):
+    stmt = select(models.Forum).where(models.Forum.name == forum.name)
+    if db.execute(stmt).first() is not None:
+        raise HTTPException(status_code=444, detail="This forum already exists")
+    return crud_forum.edit_forum_by_id_db(forum_id, forum, db)

@@ -6,8 +6,7 @@
     <link href="/static/css/styles.css" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon/favicon-16x16.png">
-    <title>Cats;Gate</title>
-
+    <title>Cats;Gate - Post reply</title>
 </head>
 <body>
 <div class="index-main">
@@ -31,33 +30,36 @@
         </div>
     </div>
     <div class="wrapper-content">
-        <div class="content content-header align-center">
-            <div class="content-forum">Topic</div>
-            <div class="content-posts">Views</div>
-            <div class="content-last-post">Last reply</div>
+        <div class="fit align-center">
+            <form onsubmit="editTopic({{ topic.id }}); return false;">
+                <div class="form-row">
+                    <h2>Edit Topic</h2>
+                </div>
+                <div class="form-col">
+                    <div class="form-row">
+                        <label for="topic_name">Topic Name</label> <br>
+                        <input type="text" name="topic_name" id="topic_name" placeholder="Enter topic name..." value="{{ topic.name }}">
+                    </div>
+                     <div class="form-row">
+                        <label for="select_forum">Move to forum:</label> <br>
+                         <select name="select_forum" id="select_forum">
+                             {% for forum in forums %}
+                                 <option {% if topic.forum_id == forum.id %} selected {% endif %} value="{{ forum.id }}">{{ forum.name }}</option>
+                             {% endfor %}
+                         </select>
+                    </div>
+                    <div class="form-row">
+                        <button>Submit</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        {% for topic in forum.topics %}
-        <div class="content ">
-            <a href="/topic/{{ topic.id }}">
-                <div class="content-forum">{{ topic.name }}</div>
-            </a>
-            <button onclick="deleteTopic({{ topic.id }})">
-                X
-            </button>
-            <button onclick="window.location = '/topic/{{ topic.id }}/edit'">
-                E
-            </button>
-            <div class="content-posts align-center">{{ topic.id}}</div>
-            <div class="content-last-post align-center">Author</div>
-        </div>
-        <div class="space"></div>
-        {% endfor %}
     </div>
     <footer>
-        <a href="/forum/{{ forum.id }}/add">ADD TOPIC</a>
     </footer>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/static/js/scripts.js"></script>
+
 </body>
 </html>
