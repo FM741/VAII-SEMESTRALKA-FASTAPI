@@ -17,8 +17,15 @@ def get_by_topic_id_db(topic_id: int, db: Session):
     return topic
 
 
+def get_topic_user_id(topic_id: int, db: Session):
+    stmt = select(models.Topic).where(models.Topic.id == topic_id)
+    topic = db.scalars(stmt).first()
+    user_id = topic.user_id
+    return user_id
+
+
 def create_topic_db(topic: TopicCreate, db: Session):
-    db_topic = models.Topic(name=topic.name, forum_id=topic.forum_id)
+    db_topic = models.Topic(name=topic.name, forum_id=topic.forum_id, user_id=topic.user_id)
     db.add(db_topic)
     db.commit()
     db.refresh(db_topic)

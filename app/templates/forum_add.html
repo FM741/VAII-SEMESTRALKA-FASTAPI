@@ -15,16 +15,24 @@
             <div class="navbar-collapse">
                 <div class="navbar-collapse-content">
                     <ul>
-                        <li><a href="/"> Home </a></li>
-                        <li><a href="/register"> Register </a></li>
-                        <li><a href="/login"> Login </a></li>
+                        <li><a href="/"> Home</a></li>
+                        {% if user is not none %}
+                            <li><a href="/crud/user/me"> {{ user.username }} </a></li>
+                        {% else %}
+                            <li><a href="/register"> Register </a></li>
+                            <li><a href="/login"> Login </a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
             <ul class="nav-list">
-                <li><a href="/"> Cats;Gate </a></li>
-                <li><a href="/register"> Register </a></li>
-                <li><a href="/login"> Login </a></li>
+                <li><a href="/"> Cats;Gate</a></li>
+                {% if user is not none %}
+                    <li><a href="/crud/user/me"> {{ user.username }} </a></li>
+                {% else %}
+                    <li><a href="/register"> Register </a></li>
+                    <li><a href="/login"> Login </a></li>
+                {% endif %}
             </ul>
             <div class="navbar-logo"></div>
         </div>
@@ -43,6 +51,7 @@
                     <div class="form-row">
                         <button id="forum_add">Submit</button>
                     </div>
+                    <input type="hidden" value="{{ user.id }}">
                 </div>
             </form>
         </div>

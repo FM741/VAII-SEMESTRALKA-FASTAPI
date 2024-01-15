@@ -11,6 +11,8 @@ Jinja2 = "*"
 asyncpg = "*"
 psycopg2 = "*"
 pydantic-settings = "*"
+python-multipart = "*"
+passlib = "*"
 
 [dev-packages]
 

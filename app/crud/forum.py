@@ -18,7 +18,7 @@ def get_forum_by_id_db(forum_id: int, db: Session):
 
 
 def create_forum_db(forum: ForumCreate, db: Session):
-    db_forum = models.Forum(name=forum.name)
+    db_forum = models.Forum(name=forum.name, user_id=1)
     db.add(db_forum)
     db.commit()
     db.refresh(db_forum)

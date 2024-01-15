@@ -16,23 +16,32 @@
             <div class="navbar-collapse">
                 <div class="navbar-collapse-content">
                     <ul>
-                        <li><a href="/"> Home </a></li>
-                        <li><a href="/register"> Register </a></li>
-                        <li><a href="/login"> Login </a></li>
+                        <li><a href="/"> Home</a></li>
+                        {% if user.username is not none %}
+                            <li><a href="/crud/user/me"> {{ user.username }} </a></li>
+                        {% else %}
+                            <li><a href="/register"> Register </a></li>
+                            <li><a href="/login"> Login </a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
             <ul class="nav-list">
-                <li><a href="/"> Cats;Gate </a></li>
-                <li><a href="/register"> Register </a></li>
-                <li><a href="/login"> Login </a></li>
+                <li><a href="/"> Cats;Gate</a></li>
+                {% if user is not none %}
+                    <li><a href="/crud/user/me"> {{ user.username }} </a></li>
+                {% else %}
+                    <li><a href="/register"> Register </a></li>
+                    <li><a href="/login"> Login </a></li>
+                {% endif %}
             </ul>
             <div class="navbar-logo"></div>
         </div>
     </div>
     <div class="wrapper-content">
         <div class="topic-content">
-            <h3 class="topic-content-name" onclick="window.location = '/forum/{{ topic.forum_id }}'"> <= {{ topic.name }}</h3>
+            <h3 class="topic-content-name" onclick="window.location = '/forum/{{ topic.forum_id }}'">
+                <= {{ topic.name }}</h3>
             <hr>
             <div class="topic-content-header align-center">
                 <h4 class="topic-content-author">Author</h4>

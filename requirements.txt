@@ -1,7 +1,11 @@
-fastapi
-sqlalchemy
+fastapi~=0.104.1
+sqlalchemy~=2.0.23
 uvicorn
 Jinja2
 asyncpg
 psycopg2
 pydantic-settings
+pydantic~=2.5.2
+python-multipart
+python-jose[cryptography]
+passlib[bcrypt]

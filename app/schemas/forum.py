@@ -13,8 +13,8 @@ class ForumCreate(ForumBase):
 
 class ForumDB(ForumBase):
     id: int
+    user_id: int
     topics: list[TopicBase] = []
 
     class Config:
         orm_mode = True
-

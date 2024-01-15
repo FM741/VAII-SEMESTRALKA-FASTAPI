@@ -1,15 +1,16 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Security
 from fastapi import Depends
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.crud import forum as crud_forum
-from app.dependencies import get_db
+from app.dependencies import get_db, auth_scheme
 from app.models import models
+from app.routers.auth import get_current_user
 from app.schemas.exception import ExceptionHandler
 from app.schemas.forum import ForumDB, ForumCreate, ForumBase
 
-router = APIRouter(dependencies=[Depends(get_db)], tags=["Forum"], prefix="/crud/forum")
+router = APIRouter(dependencies=[Depends(get_db), Security(get_current_user, scopes=["admin"])], tags=["Forum"], prefix="/crud/forum")
 
 
 @router.get("/all", response_model=list[ForumDB])

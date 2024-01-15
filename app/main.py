@@ -1,13 +1,18 @@
 import os
+from typing import Annotated
 
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, HTTPException
+from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.staticfiles import StaticFiles
+from sqlalchemy.orm import Session
 
 from app.core.db import engine
+from app.crud import user as crud_user
 from .dependencies import get_db
 from .models import models
-from .routers import topic, forum, html, post
+from .routers import topic, forum, html, post, user, auth
 from .schemas.exception import ExceptionHandler
+from .schemas.user import UserDB
 
 models.Base.metadata.create_all(engine)
 
@@ -16,60 +21,11 @@ app = FastAPI(dependencies=[Depends(get_db)])
 app.include_router(topic.router, dependencies=[Depends(get_db)])
 app.include_router(forum.router, dependencies=[Depends(get_db)])
 app.include_router(post.router, dependencies=[Depends(get_db)])
+app.include_router(user.router, dependencies=[Depends(get_db)])
 app.include_router(html.router, dependencies=[Depends(get_db)])
+app.include_router(auth.router, dependencies=[Depends(get_db)])
+
 
 current_dir = os.path.abspath(os.path.dirname(__file__))
 app.mount('/static', StaticFiles(directory=os.path.join(current_dir, 'static')), name='static')
 app.add_exception_handler(ExceptionHandler, html.exception_handler)
-# @app.post("/forum/add", response_model=ForumBase)
-# def create_forum_item(forum: ForumBase, db: Session = Depends(get_db)):
-#     db_forum = models.Forum(name=forum.name)
-#     db.add(db_forum)
-#     db.commit()
-#     db.refresh(db_forum)
-#     return db_forum
-#
-#
-# @app.get("/forums", response_model=list[ForumBase])
-# def get_forums(db: Session = Depends(get_db)):
-#     sau = select(models.Forum)
-#     forums = db.scalars(sau).all()
-#     return forums
-#
-#
-
-#
-#
-# @app.get("/login", response_class=HTMLResponse)
-# async def login_page(request: Request):
-#     return templates.TemplateResponse("login.html", {"request": request})
-#
-#
-# @app.exception_handler(404)
-# async def custom_404_handler(_, __):
-#     return RedirectResponse("/")
-#
-#
-# @app.get("/db", response_model=Forum)
-# async def get_users():
-#     forum = await Forum(id=40, name="Science").save()
-#     topic = Topic(id=10, name="Math", forum=forum)
-#     return forum
-#
-#
-# @app.get("/dbF")
-# async def get_forums():
-#     forum = await Forum.objects.all()
-#     return forum
-#
-#
-# @app.on_event("startup")
-# async def startup():
-#     if not database.is_connected:
-#         await database.connect()
-#
-#
-# @app.on_event("shutdown")
-# async def shutdown():
-#     if database.is_connected:
-#         await database.disconnect()

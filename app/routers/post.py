@@ -3,7 +3,7 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 
 from app.crud import post as crud_post
-from app.dependencies import get_db
+from app.dependencies import get_db, auth_scheme
 from app.schemas.post import PostCreate, PostDB, PostUpdate
 
 router = APIRouter(dependencies=[Depends(get_db)], tags=["Post"], prefix="/crud/post")
@@ -40,12 +40,7 @@ def remove_post_by_id(post_id: int, post_update: PostUpdate, db: Session = Depen
 #     if not topic:
 #         raise HTTPException(status_code=404, detail="Topic not found")
 #     return crud_post.get_by_topic_id_db(topic_id, db)
-#
-#
-#
-#
 
-#
 #
 # @router.patch("/{topic_id}")
 # def patch_topic_by_id(topic_id: int, topic_update: TopicUpdate, db: Session = Depends(get_db)):

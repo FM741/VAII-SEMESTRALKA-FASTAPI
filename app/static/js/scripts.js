@@ -37,7 +37,7 @@ const submitForum = () => {
             window.location = "/";
         },
         error: function (xhr, error) {
-            alert("STATUS: "+xhr.status+"\nCannot create -"+ JSON.parse(xhr.responseText).detail);
+            alert("STATUS: " + xhr.status + "\nCannot create -" + JSON.parse(xhr.responseText).detail);
         }
     });
 }
@@ -57,7 +57,7 @@ const editForum = (forum_id) => {
             window.location = document.referrer
         },
         error: function (xhr, error) {
-            alert("STATUS: "+xhr.status+"\n"+ JSON.parse(xhr.responseText).detail);
+            alert("STATUS: " + xhr.status + "\n" + JSON.parse(xhr.responseText).detail);
         }
     });
 }
@@ -65,7 +65,7 @@ const submitTopic = () => {
     console.log('request_body_param pushed')
     let topic = {
         "name": $("#topic_name").val(),
-        "forum_id": url[4]
+        "forum_id": url[4],
     };
     $.ajax({
         url: "/crud/topic/add",
@@ -193,6 +193,56 @@ const addPost = (post) => {
         success: function (data) {
             console.log("success", data);
             window.location = "/topic/" + data.topic_id;
+        }
+    });
+}
+
+const submitUser = () => {
+    console.log('request_body_param pushed')
+    let user = {
+        "username": $("#username").val(),
+        "password": $("#password").val(),
+        "gender": $('input[name="gender"]:checked').val(),
+        "date_of_creation": new Date(),
+    };
+    $.ajax({
+        url: "/crud/user/add",
+        type: "POST",
+        data: JSON.stringify(user),
+        dataType: "json",
+        contentType: "application/json",
+        success: function (data) {
+            console.log("success", data);
+            window.location = "/";
+        },
+        error: function (xhr, error) {
+            alert("STATUS: " + xhr.status + "\nCannot create -" + JSON.parse(xhr.responseText).detail);
+        }
+    });
+}
+
+
+const loginUser = () => {
+    console.log('request_body_param pushed')
+    let user = {
+        "username": $("#username").val(),
+        "password": $("#password").val(),
+    };
+    $.ajax({
+        url: "/token",
+        type: "POST",
+        data: $.param(user),
+        dataType: "json",
+        contentType: "application/x-www-form-urlencoded",
+        xhrFields: {withCredentials: true},
+        crossDomain: true,
+        success: function (data) {
+            console.log("success", data);
+            window.location = "/";
+        },
+        error: function (xhr, error) {
+            let message = JSON.parse(xhr.responseText).detail;
+            $("#error").html(message);
         }
     });
 }
