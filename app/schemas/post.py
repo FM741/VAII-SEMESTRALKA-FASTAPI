@@ -4,7 +4,6 @@ from pydantic import BaseModel
 class PostBase(BaseModel):
     header: str
     body: str
-    user_id: int
 
 
 class PostCreate(PostBase):
@@ -14,7 +13,7 @@ class PostCreate(PostBase):
 class PostDB(PostBase):
     id: int
     topic_id: int
-
+    user_id: int
     class Config:
         orm_mode = True
 

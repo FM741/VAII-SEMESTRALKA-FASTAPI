@@ -11,10 +11,10 @@ from starlette import status
 from starlette.responses import Response
 
 from app.crud import user as crud_user
-from ..dependencies import auth_scheme, get_db
+from ..dependencies import get_db
 from ..schemas.exception import ExceptionHandler
 from ..schemas.token import TokenData, Token
-from ..schemas.user import UserBase
+from ..schemas.user import UserDB
 
 SECRET_KEY = "fc9e8a02e0908115305c0bfba8f99b794b7d7200da92ec4ac4cb18a5d418298b"
 ALGORITHM = "HS256"
@@ -79,7 +79,8 @@ def get_current_user(security_scopes: SecurityScopes, access_token: str = Cookie
     user = crud_user.get_user_by_username(token_data.username, db)
     if user is None:
         return None
-    return UserBase(id=user.id, username=user.username, gender=user.gender, date_of_creation=user.date_of_creation)
+    return UserDB(id=user.id, username=user.username, gender=user.gender, date_of_creation=user.date_of_creation,
+                  is_admin=user.is_admin)
 
 
 @router.post("/token")
@@ -100,5 +101,11 @@ def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depen
     access_token = create_access_token(
         data={"sub": user.username, "scopes": form_data.scopes}, expires_delta=access_token_expires
     )
-    response.set_cookie(key="access_token", value=access_token, max_age=access_token_expires.total_seconds())
+    response.set_cookie(key="access_token", value=access_token, max_age=int(access_token_expires.total_seconds()))
     return Token(access_token=access_token, token_type="bearer")
+
+
+@router.post("/logout")
+def logout(response: Response):
+    response.delete_cookie("access_token")
+    return {"status": "success"}

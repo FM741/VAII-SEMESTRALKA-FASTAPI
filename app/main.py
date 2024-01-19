@@ -4,7 +4,7 @@ from typing import Annotated
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.staticfiles import StaticFiles
-from sqlalchemy.orm import Session
+from fastapi_pagination import add_pagination
 
 from app.core.db import engine
 from app.crud import user as crud_user
@@ -24,8 +24,9 @@ app.include_router(post.router, dependencies=[Depends(get_db)])
 app.include_router(user.router, dependencies=[Depends(get_db)])
 app.include_router(html.router, dependencies=[Depends(get_db)])
 app.include_router(auth.router, dependencies=[Depends(get_db)])
-
+add_pagination(app)
 
 current_dir = os.path.abspath(os.path.dirname(__file__))
 app.mount('/static', StaticFiles(directory=os.path.join(current_dir, 'static')), name='static')
 app.add_exception_handler(ExceptionHandler, html.exception_handler)
+

@@ -10,23 +10,7 @@
 </head>
 <body>
 <div class="index-main">
-    <div id="navbar" class="navbar">
-        <div class="navbar-content">
-            <div class="navbar-collapse">
-                <div class="navbar-collapse-content">
-                    <ul>
-                        <li><a href="/"> Home </a></li>
-                        <li><a href="/login"> Login </a></li>
-                    </ul>
-                </div>
-            </div>
-            <ul class="nav-list">
-                <li><a href="/"> Cats;Gate </a></li>
-                <li><a href="/login"> Login </a></li>
-            </ul>
-            <div class="navbar-logo"></div>
-        </div>
-    </div>
+    {% include 'nav.html' %}
     <div class="wrapper-content">
         <div class="register form">
             <div class="form-row">
@@ -65,8 +49,11 @@
                             Other
                         </label>
                     </div>
+
                     <div class="form-row">
                         <button>Register</button>
+                    </div>
+                    <div class="form-row" id="error">
                     </div>
                 </div>
             </form>

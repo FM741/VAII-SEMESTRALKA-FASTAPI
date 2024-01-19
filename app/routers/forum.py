@@ -1,5 +1,6 @@
-from fastapi import APIRouter, HTTPException, Security
+from fastapi import APIRouter, HTTPException, Security, Query
 from fastapi import Depends
+from fastapi_pagination import Page, paginate, Params
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -9,24 +10,27 @@ from app.models import models
 from app.routers.auth import get_current_user
 from app.schemas.exception import ExceptionHandler
 from app.schemas.forum import ForumDB, ForumCreate, ForumBase
+from app.schemas.topic import TopicDB
 
 router = APIRouter(dependencies=[Depends(get_db), Security(get_current_user, scopes=["admin"])], tags=["Forum"], prefix="/crud/forum")
 
 
-@router.get("/all", response_model=list[ForumDB])
-def get_all_forums_db(db: Session = Depends(get_db)):
+@router.get("/all", response_model=Page[ForumDB])
+def get_all_forums(page: int, db: Session = Depends(get_db)):
     forums = crud_forum.get_all_forums_db(db)
     if not forums:
-        raise HTTPException(status_code=404, detail="No forums found")
-    return crud_forum.get_all_forums_db(db)
+        raise ExceptionHandler(status_code=404, detail="There are no forums", headers={"error_place": "forum"})
+    params = Params(page=page, size=10)
+    return paginate(forums, params)
 
 
-@router.get("/{forum_id}", response_model=ForumDB)
-def get_forum_by_id(forum_id: int, db: Session = Depends(get_db)):
+@router.get("/{forum_id}", response_model=Page[TopicDB])
+def get_forum_by_id(forum_id: int, page: int, db: Session = Depends(get_db)):
     forum = crud_forum.get_forum_by_id_db(forum_id, db)
     if not forum:
-        raise HTTPException(status_code=404, detail="No forum by that ID found")
-    return crud_forum.get_forum_by_id_db(forum_id, db)
+        raise ExceptionHandler(status_code=404, detail="Forum not found")
+    params = Params(page=page, size=12)
+    return paginate(forum.topics, params)
 
 
 @router.post("/add", response_model=ForumDB)

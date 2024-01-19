@@ -82,6 +82,10 @@ const submitTopic = () => {
             };
             addPost(post)
         },
+        error: function (xhr, error) {
+            let message = JSON.parse(xhr.responseText).detail;
+            $("#error").html(message);
+        }
     });
 }
 
@@ -216,7 +220,8 @@ const submitUser = () => {
             window.location = "/";
         },
         error: function (xhr, error) {
-            alert("STATUS: " + xhr.status + "\nCannot create -" + JSON.parse(xhr.responseText).detail);
+            let message = JSON.parse(xhr.responseText).detail;
+            $("#error").html(message);
         }
     });
 }

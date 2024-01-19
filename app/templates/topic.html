@@ -11,37 +11,12 @@
 </head>
 <body>
 <div class="index-main">
-    <div id="navbar" class="navbar">
-        <div class="navbar-content">
-            <div class="navbar-collapse">
-                <div class="navbar-collapse-content">
-                    <ul>
-                        <li><a href="/"> Home</a></li>
-                        {% if user.username is not none %}
-                            <li><a href="/crud/user/me"> {{ user.username }} </a></li>
-                        {% else %}
-                            <li><a href="/register"> Register </a></li>
-                            <li><a href="/login"> Login </a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-            <ul class="nav-list">
-                <li><a href="/"> Cats;Gate</a></li>
-                {% if user is not none %}
-                    <li><a href="/crud/user/me"> {{ user.username }} </a></li>
-                {% else %}
-                    <li><a href="/register"> Register </a></li>
-                    <li><a href="/login"> Login </a></li>
-                {% endif %}
-            </ul>
-            <div class="navbar-logo"></div>
-        </div>
-    </div>
+    {% include 'nav.html' %}
     <div class="wrapper-content">
         <div class="topic-content">
-            <h3 class="topic-content-name" onclick="window.location = '/forum/{{ topic.forum_id }}'">
-                <= {{ topic.name }}</h3>
+            <h3 class="topic-content-name"
+                onclick="window.location = '/forum/{{ pagination.items[0].topic.forum_id }}'">
+                <= {{ pagination.items[0].topic.name }}</h3>
             <hr>
             <div class="topic-content-header align-center">
                 <h4 class="topic-content-author">Author</h4>
@@ -50,14 +25,12 @@
             </div>
             <hr>
         </div>
-
-
-        {% for post in topic.posts %}
+        {% for post in pagination.items %}
             <div class="topic-content">
                 <div class="topic-content-body ">
                     <div class="topic-content-author align-center">
                         <img class="user-image" src="img/user.png" alt="User image"> <br>
-                        <p class="username">User01</p>
+                        <p class="username"> {{ post.user.username }} </p>
                         <button id="delete_post" onclick="deletePost()">Remove Post</button>
                         <button id="edit_post" onclick="window.location = '/post/{{ post.id }}'">Edit Post</button>
 
@@ -72,11 +45,20 @@
             <input type="hidden" id="post_id_hidden" value="{{ post.id }}">
             <div class="space"></div>
         {% endfor %}
-
-
     </div>
     <footer>
-        <a href="/topic/{{ topic.id }}/add">Post Reply</a>
+        <a href="/topic/{{ pagination.items[0].topic_id }}/add">Post Reply</a>
+        {% if page > 1 %}
+            <a href="{{ url_for('posts', topic_id=pagination.items[0].topic_id).include_query_params(page = page - 1) }}">PREV</a>
+        {% endif %}
+        {% for pages in range(pagination.pages) %}
+            <a href="{{ url_for('posts', topic_id=pagination.items[0].topic_id).include_query_params(page = pages + 1) }}"
+                    {% if page == pages + 1 %}
+               class='disabled' {% endif %}>{{ pages + 1 }}</a>
+        {% endfor %}
+        {% if page < pagination.pages %}
+            <a href="{{ url_for('posts', topic_id=pagination.items[0].topic_id).include_query_params(page = page + 1) }}">NEXT</a>
+        {% endif %}
     </footer>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

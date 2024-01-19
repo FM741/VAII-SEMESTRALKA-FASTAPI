@@ -17,8 +17,8 @@ def get_by_post_id_db(post_id: int, db: Session):
     return post
 
 
-def create_post_db(post: PostCreate, db: Session):
-    db_post = models.Post(header=post.header, body=post.body, topic_id=post.topic_id)
+def create_post_db(post: PostCreate, user_id: int, db: Session):
+    db_post = models.Post(header=post.header, body=post.body, topic_id=post.topic_id, user_id=user_id)
     db.add(db_post)
     db.commit()
     db.refresh(db_post)

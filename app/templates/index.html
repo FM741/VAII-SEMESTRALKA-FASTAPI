@@ -10,65 +10,53 @@
 
 </head>
 <body>
-<div class="index-main">
-    <div id="navbar" class="navbar">
-        <div class="navbar-content">
-            <div class="navbar-collapse">
-                <div class="navbar-collapse-content">
-                    <ul>
-                        <li><a href="/"> Home</a></li>
-                        {% if user is not none %}
-                            <li><a href="/crud/user/me"> {{ user.username }} </a></li>
-                        {% else %}
-                            <li><a href="/register"> Register </a></li>
-                            <li><a href="/login"> Login </a></li>
-                        {% endif %}
-                    </ul>
-                </div>
+{% if pagination %}
+    <div class="index-main">
+        {% include 'nav.html' %}
+        <div class="wrapper-content">
+            <div class="content content-header align-center">
+                <div class="content-forum"> Forum</div>
+                <div class="content-posts"> Topics</div>
+                <div class="content-last-post">Last post</div>
             </div>
-            <ul class="nav-list">
-                <li><a href="/"> Cats;Gate</a></li>
-                {% if user is not none %}
-                    <li><a href="/crud/user/me"> {{ user.username }} </a></li>
-                {% else %}
-                    <li><a href="/register"> Register </a></li>
-                    <li><a href="/login"> Login </a></li>
-                {% endif %}
-            </ul>
-            <div class="navbar-logo"></div>
-        </div>
-    </div>
-    <div class="wrapper-content">
-        <div class="content content-header align-center">
-            <div class="content-forum"> Forum</div>
-            <div class="content-posts"> Posts</div>
-            <div class="content-last-post">Last post</div>
-        </div>
-        {% for forum in forums %}
-            <div class="content ">
-                <a href="/forum/{{ forum.id }}">
-                    <div class="content-forum"> {{ forum.name }}</div>
-                </a>
-                <button onclick="deleteForum({{ forum.id }})">
-                    X
-                </button>
-                <button onclick="window.location = '/edit/{{ forum.id }}'">
-                    E
-                </button>
-                <div class="content-posts align-center">{{ forum.topics|count }}</div>
-                {% if forum.topics %}
-                    <div class="content-last-post align-center">{{ forum.topics[-1].id }}</div>
-                {% else %}
-                    <div class="content-last-post align-center">-</div>
-                {% endif %}
+            {% for forum in pagination.items %}
+                <div class="content ">
+                    <a href="/forum/{{ forum.id }}">
+                        <div class="content-forum"> {{ forum.name }}</div>
+                    </a>
+                    {% if user.is_admin %}
+                        <button onclick="deleteForum({{ forum.id }})">
+                            X
+                        </button>
+                        <button onclick="window.location = '/edit/{{ forum.id }}'">
+                            E
+                        </button>
+                    {% endif %}
+                    <div class="content-posts align-center">{{ forum.topics|count }}</div>
+                    {% if forum.topics %}
+                        <div class="content-last-post align-center">{{ forum.topics[-1].name }}</div>
+                    {% else %}
+                        <div class="content-last-post align-center">-</div>
+                    {% endif %}
 
-            </div>
-        {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+        <footer>
+            <a href="/add">ADD FORUM</a>
+            {% if page > 1 %}
+                <a href="{{ url_for('index').include_query_params(page = page - 1) }}">PREV</a>
+            {% endif %}
+            {% for pages in range(pagination.pages) %}
+                <a href="{{ url_for('index').include_query_params(page = pages + 1) }}" {% if page == pages + 1 %}
+                   class='disabled' {% endif %}>{{ pages + 1 }}</a>
+            {% endfor %}
+            {% if page < pagination.pages %}
+                <a href="{{ url_for('index').include_query_params(page = page + 1) }}">NEXT</a>
+            {% endif %}
+        </footer>
     </div>
-    <footer>
-        <a href="/add">ADD FORUM</a>
-    </footer>
-</div>
+{% endif %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/static/js/scripts.js"></script>
 </body>

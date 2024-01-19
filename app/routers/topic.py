@@ -2,11 +2,13 @@ from typing import Annotated
 
 from fastapi import APIRouter, HTTPException, Security
 from fastapi import Depends
+from fastapi_pagination import Params, paginate, Page
 from sqlalchemy.orm import Session
 
-from app.crud import topic as crud_topic
+from app.crud import topic as crud_topic, forum as crud_forum
 from app.dependencies import get_db, auth_scheme
 from app.routers.auth import get_current_user
+from app.schemas.post import PostDB
 from app.schemas.topic import TopicCreate, TopicDB, TopicUpdate
 from app.schemas.user import UserDB
 
@@ -18,18 +20,21 @@ def get_all_topics(current_user: Annotated[UserDB, Security(get_current_user, sc
     return crud_topic.get_all_topics_db(db)
 
 
-@router.get("/{topic_id}", response_model=TopicDB)
-def get_topic_by_id(topic_id: int, db: Session = Depends(get_db)):
+@router.get("/{topic_id}", response_model=Page[PostDB])
+def get_topic_by_id(topic_id: int, page: int, db: Session = Depends(get_db)):
     topic = crud_topic.get_by_topic_id_db(topic_id, db)
     if not topic:
         raise HTTPException(status_code=404, detail="Topic not found")
-    return crud_topic.get_by_topic_id_db(topic_id, db)
+    params = Params(page=page, size=6)
+    return paginate(topic.posts, params)
 
 
 @router.post("/add", response_model=TopicDB)
 def create_topic(topic: TopicCreate, current_user: Annotated[UserDB, Security(get_current_user, scopes=["user"])], db: Session = Depends(get_db)):
-    topic.user_id = current_user.id
-    return crud_topic.create_topic_db(topic, db)
+    forum = crud_forum.get_forum_by_id_db(topic.forum_id, db)
+    if not forum:
+        raise HTTPException(status_code=404, detail="Forum with id: " + str(topic.forum_id) + " does not exists, can't add topic")
+    return crud_topic.create_topic_db(topic, current_user.id, db)
 
 
 @router.delete("/{topic_id}")
@@ -40,7 +45,7 @@ def remove_topic_by_id(topic_id: int, current_user: Annotated[UserDB, Security(g
     if current_user.is_admin:
         return crud_topic.delete_topic_by_id_db(topic_id, db)
     if current_user.id != topic.user_id:
-        raise HTTPException(status_code=501, detail="Unauthorized!!")
+        raise HTTPException(status_code=401, detail="Unauthorized!")
     return crud_topic.delete_topic_by_id_db(topic_id, db)
 
 

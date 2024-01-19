@@ -24,8 +24,8 @@ def get_topic_user_id(topic_id: int, db: Session):
     return user_id
 
 
-def create_topic_db(topic: TopicCreate, db: Session):
-    db_topic = models.Topic(name=topic.name, forum_id=topic.forum_id, user_id=topic.user_id)
+def create_topic_db(topic: TopicCreate, user_id: int, db: Session):
+    db_topic = models.Topic(name=topic.name, forum_id=topic.forum_id, user_id=user_id)
     db.add(db_topic)
     db.commit()
     db.refresh(db_topic)

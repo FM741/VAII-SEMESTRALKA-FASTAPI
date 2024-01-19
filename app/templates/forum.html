@@ -11,60 +11,45 @@
 </head>
 <body>
 <div class="index-main">
-    <div id="navbar" class="navbar">
-        <div class="navbar-content">
-            <div class="navbar-collapse">
-                <div class="navbar-collapse-content">
-                    <ul>
-                        <li><a href="/"> Home</a></li>
-                        {% if user is not none %}
-                            <li><a href="/crud/user/me"> {{ user.username }} </a></li>
-                        {% else %}
-                            <li><a href="/register"> Register </a></li>
-                            <li><a href="/login"> Login </a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-            <ul class="nav-list">
-                <li><a href="/"> Cats;Gate</a></li>
-                {% if user is not none %}
-                    <li><a href="/crud/user/me"> {{ user.username }} </a></li>
-                {% else %}
-                    <li><a href="/register"> Register </a></li>
-                    <li><a href="/login"> Login </a></li>
-                {% endif %}
-            </ul>
-            <div class="navbar-logo"></div>
-        </div>
-    </div>
+    {% include 'nav.html' %}
     <div class="wrapper-content">
         <div class="content content-header align-center">
             <div class="content-forum">Topic</div>
-            <div class="content-posts">Views</div>
+            <div class="content-posts">Posts</div>
             <div class="content-last-post">Last reply</div>
         </div>
-        {% for topic in forum.topics %}
-        <div class="content ">
-            <a href="/topic/{{ topic.id }}">
-                <div class="content-forum">{{ topic.name }}</div>
-            </a>
-            {% if topic.user_id == user.id %}
-            <button onclick="deleteTopic({{ topic.id }})">
-                X
-            </button>
-            <button onclick="window.location = '/topic/{{ topic.id }}/edit'">
-                E
-            </button>
-            {% endif %}
-            <div class="content-posts align-center">{{ topic.id}}</div>
-            <div class="content-last-post align-center">Author</div>
-        </div>
-        <div class="space"></div>
+        {% for topic in pagination.items | sort(attribute='id') %}
+            <div class="content ">
+                <a href="/topic/{{ topic.id }}">
+                    <div class="content-forum">{{ topic.name }}</div>
+                </a>
+                {% if topic.user_id == user.id or user.is_admin %}
+                    <button onclick="deleteTopic({{ topic.id }})">
+                        X
+                    </button>
+                    <button onclick="window.location = '/topic/{{ topic.id }}/edit'">
+                        E
+                    </button>
+                {% endif %}
+                <div class="content-posts align-center">{{ topic.posts | count }}</div>
+                <div class="content-last-post align-center">{{ topic.posts[-1].user.username }}</div>
+            </div>
+            <div class="space"></div>
         {% endfor %}
     </div>
     <footer>
-        <a href="/forum/{{ forum.id }}/add">ADD TOPIC</a>
+        <a href="/forum/{{ forum_id }}/add">ADD TOPIC</a>
+        {% if page > 1 %}
+            <a href="{{ url_for('topics', forum_id=forum_id).include_query_params(page = page - 1) }}">PREV</a>
+        {% endif %}
+        {% for pages in range(pagination.pages) %}
+            <a href="{{ url_for('topics', forum_id=forum_id).include_query_params(page = pages + 1) }}"
+                    {% if page == pages + 1 %}
+               class='disabled' {% endif %}>{{ pages + 1 }}</a>
+        {% endfor %}
+        {% if page < pagination.pages %}
+            <a href="{{ url_for('topics', forum_id=forum_id).include_query_params(page = page + 1) }}">NEXT</a>
+        {% endif %}
     </footer>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

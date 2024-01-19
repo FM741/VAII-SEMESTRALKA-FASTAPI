@@ -10,33 +10,7 @@
 </head>
 <body>
 <div class="index-main">
-    <div id="navbar" class="navbar">
-        <div class="navbar-content">
-            <div class="navbar-collapse">
-                <div class="navbar-collapse-content">
-                    <ul>
-                        <li><a href="/"> Home</a></li>
-                        {% if user is not none %}
-                            <li><a href="/crud/user/me"> {{ user.username }} </a></li>
-                        {% else %}
-                            <li><a href="/register"> Register </a></li>
-                            <li><a href="/login"> Login </a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-            <ul class="nav-list">
-                <li><a href="/"> Cats;Gate</a></li>
-                {% if user is not none %}
-                    <li><a href="/crud/user/me"> {{ user.username }} </a></li>
-                {% else %}
-                    <li><a href="/register"> Register </a></li>
-                    <li><a href="/login"> Login </a></li>
-                {% endif %}
-            </ul>
-            <div class="navbar-logo"></div>
-        </div>
-    </div>
+    {% include 'nav.html' %}
     <div class="wrapper-content">
         <div class="fit align-center">
             <form onsubmit="editTopic({{ topic.id }}); return false;">
