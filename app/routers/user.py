@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Security, HTTPException
+from fastapi import APIRouter, Depends, Security, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 from starlette import status
 
@@ -43,3 +43,8 @@ def patch_topic_by_id(user_id: int, user_update: UserUpdate, db: Session = Depen
     if not user:
         raise HTTPException(status_code=404, detail="Topic not found, cannot patch")
     return crud_user.update_user_by_id(user_id, user_update, db)
+
+
+@router.post("/uploadimage/")
+def create_upload_file(current_user: Annotated[UserDB, Security(get_current_user, scopes=["user"])], file: UploadFile, db: Session = Depends(get_db)):
+    return crud_user.save_image(current_user.id, file, db)

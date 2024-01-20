@@ -11,7 +11,21 @@
 </head>
 <body>
 <div class="index-main">
-    {% include 'nav.html' %}
+    <div id="navbar" class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-collapse">
+                <div class="navbar-collapse-content">
+                    <ul>
+                        <li><a href="/"> Home</a></li>
+                    </ul>
+                </div>
+            </div>
+            <ul class="nav-list">
+                <li><a href="/"> Cats;Gate</a></li>
+            </ul>
+            <div class="navbar-logo"></div>
+        </div>
+    </div>
     <div class="wrapper-content">
         <div class="fit">
             <div class="form-row error-status">
@@ -23,6 +37,19 @@
             {% if exception.headers.error_place == "forum" %}
                 <div class="form-row error-detail">
                     <a href="/add"> ADD FORUM </a>
+                </div>
+            {% endif %}
+            {% if exception.headers.error_place == "nopost" %}
+                <div class="form-row error-detail">
+                    <a href="{{ request.url.path }}/add"> Add your post! </a>
+                </div>
+            {% endif %}
+            {% if exception.headers.error_place == "permissions" %}
+                <div class="form-row error-detail">
+                    <a href="/login"> Log In </a>
+                </div>
+                <div class="form-row error-detail">
+                    <a href="/register"> Register </a>
                 </div>
             {% endif %}
         </div>

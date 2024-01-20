@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from app.crud import topic as crud_topic, forum as crud_forum
 from app.dependencies import get_db, auth_scheme
 from app.routers.auth import get_current_user
+from app.schemas.exception import ExceptionHandler
 from app.schemas.post import PostDB
 from app.schemas.topic import TopicCreate, TopicDB, TopicUpdate
 from app.schemas.user import UserDB
@@ -25,6 +26,8 @@ def get_topic_by_id(topic_id: int, page: int, db: Session = Depends(get_db)):
     topic = crud_topic.get_by_topic_id_db(topic_id, db)
     if not topic:
         raise HTTPException(status_code=404, detail="Topic not found")
+    if not topic.posts:
+        raise ExceptionHandler(status_code=404, detail="No posts found in this topic", headers={"error_place": "nopost"})
     params = Params(page=page, size=6)
     return paginate(topic.posts, params)
 

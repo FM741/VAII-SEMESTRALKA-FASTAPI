@@ -20,7 +20,7 @@
         <ul class="nav-list">
             <li><a href="/"> Cats;Gate</a></li>
             {% if user is not none %}
-                <li><a href="/crud/user/me"> {{ user.username }} </a></li>
+                <li><a href="/me"> {{ user.username }} </a></li>
             {% else %}
                 {% if request.url.path != "/register" %}
                     <li><a href="/register"> Register </a></li>

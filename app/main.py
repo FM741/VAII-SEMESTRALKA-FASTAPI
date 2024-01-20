@@ -27,6 +27,6 @@ app.include_router(auth.router, dependencies=[Depends(get_db)])
 add_pagination(app)
 
 current_dir = os.path.abspath(os.path.dirname(__file__))
-app.mount('/static', StaticFiles(directory=os.path.join(current_dir, 'static')), name='static')
+app.mount('/static', StaticFiles(directory="/app/app/static"), name='static')
 app.add_exception_handler(ExceptionHandler, html.exception_handler)
 

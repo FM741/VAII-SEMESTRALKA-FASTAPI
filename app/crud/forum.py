@@ -18,8 +18,8 @@ def get_forum_by_id_db(forum_id: int, db: Session):
     return forum
 
 
-def create_forum_db(forum: ForumCreate, db: Session):
-    db_forum = models.Forum(name=forum.name, user_id=1)
+def create_forum_db(forum: ForumCreate, user_id: int, db: Session):
+    db_forum = models.Forum(name=forum.name, user_id=user_id)
     db.add(db_forum)
     db.commit()
     db.refresh(db_forum)

@@ -58,6 +58,7 @@ class User(Base):
     password: Mapped[str] = mapped_column(String(256))
     gender: Mapped[str] = mapped_column(String(10))
     is_admin: Mapped[bool] = mapped_column()
+    img_url: Mapped[str] = mapped_column()
 
     date_of_creation: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
     forums: Mapped[List["Forum"]] = relationship("Forum", back_populates="user")

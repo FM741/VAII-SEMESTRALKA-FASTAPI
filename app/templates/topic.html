@@ -29,7 +29,7 @@
             <div class="topic-content">
                 <div class="topic-content-body ">
                     <div class="topic-content-author align-center">
-                        <img class="user-image" src="img/user.png" alt="User image"> <br>
+                        <img class="user-image" src="{{ post.user.img_url }}" alt="User image"> <br>
                         <p class="username"> {{ post.user.username }} </p>
                         <button id="delete_post" onclick="deletePost()">Remove Post</button>
                         <button id="edit_post" onclick="window.location = '/post/{{ post.id }}'">Edit Post</button>
@@ -47,17 +47,17 @@
         {% endfor %}
     </div>
     <footer>
-        <a href="/topic/{{ pagination.items[0].topic_id }}/add">Post Reply</a>
+        <a href="/topic/{{ topic_id }}/add">Post Reply</a>
         {% if page > 1 %}
-            <a href="{{ url_for('posts', topic_id=pagination.items[0].topic_id).include_query_params(page = page - 1) }}">PREV</a>
+            <a href="{{ url_for('posts', topic_id=topic_id).include_query_params(page = page - 1) }}">PREV</a>
         {% endif %}
         {% for pages in range(pagination.pages) %}
-            <a href="{{ url_for('posts', topic_id=pagination.items[0].topic_id).include_query_params(page = pages + 1) }}"
+            <a href="{{ url_for('posts', topic_id=topic_id).include_query_params(page = pages + 1) }}"
                     {% if page == pages + 1 %}
                class='disabled' {% endif %}>{{ pages + 1 }}</a>
         {% endfor %}
         {% if page < pagination.pages %}
-            <a href="{{ url_for('posts', topic_id=pagination.items[0].topic_id).include_query_params(page = page + 1) }}">NEXT</a>
+            <a href="{{ url_for('posts', topic_id=topic_id).include_query_params(page = page + 1) }}">NEXT</a>
         {% endif %}
     </footer>
 </div>

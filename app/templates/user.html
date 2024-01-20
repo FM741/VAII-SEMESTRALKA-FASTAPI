@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/css/styles.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/img/favicon/favicon-16x16.png">
+    <title>Cats;Gate</title>
+
+</head>
+<body>
+<div class="index-main">
+    {% include 'nav.html' %}
+    <div class="wrapper-content">
+        {{ user.username }} <br>
+        {{ user.date_of_creation }} <br>
+        {{ user.gender }} <br>
+        {{ user.posts | count }} <br>
+        <img src="{{ user.img_url }}" alt="user_image"> <br>
+        <form action="crud/user/uploadimage/" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file"/>
+            <input type="submit"/>
+        </form>
+    </div>
+
+    <footer>
+    </footer>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/static/js/scripts.js"></script>
+</body>
+</html>

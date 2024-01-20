@@ -1,7 +1,10 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
+
+from app.schemas.post import PostDB
+from app.schemas.topic import TopicDB
 
 
 class UserBase(BaseModel):
@@ -13,6 +16,13 @@ class UserBase(BaseModel):
 
 class UserDB(UserBase):
     is_admin: bool
+
+
+class UserAll(UserDB):
+    model_config = ConfigDict(from_attributes=True)
+    topics: list[TopicDB]
+    posts: list[PostDB]
+    img_url: str
 
 
 class UserDBPass(BaseModel):
@@ -27,9 +37,7 @@ class UserCreate(BaseModel):
 
 
 class UserUpdate(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: Optional[int] = None
     username: Optional[str] = None
     is_admin: Optional[bool] = None
-
-    class Config:
-        orm_mode = True

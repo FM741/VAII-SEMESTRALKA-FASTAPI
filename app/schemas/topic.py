@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class TopicBase(BaseModel):
@@ -13,17 +13,14 @@ class TopicCreate(TopicBase):
 
 
 class TopicDB(TopicBase):
+    model_config = ConfigDict(from_attributes=True)
     id: int
     user_id: int
 
-    class Config:
-        orm_mode = True
-
 
 class TopicUpdate(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: Optional[int] = None
     name: Optional[str] = None
     forum_id: Optional[int] = None
 
-    class Config:
-        orm_mode = True

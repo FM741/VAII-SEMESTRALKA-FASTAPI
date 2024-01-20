@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from .topic import TopicBase
 
@@ -12,9 +12,7 @@ class ForumCreate(ForumBase):
 
 
 class ForumDB(ForumBase):
+    model_config = ConfigDict(from_attributes=True)
     id: int
     user_id: int
     topics: list[TopicBase] = []
-
-    class Config:
-        orm_mode = True

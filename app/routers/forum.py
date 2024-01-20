@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import APIRouter, HTTPException, Security, Query
 from fastapi import Depends
 from fastapi_pagination import Page, paginate, Params
@@ -11,6 +13,7 @@ from app.routers.auth import get_current_user
 from app.schemas.exception import ExceptionHandler
 from app.schemas.forum import ForumDB, ForumCreate, ForumBase
 from app.schemas.topic import TopicDB
+from app.schemas.user import UserDB
 
 router = APIRouter(dependencies=[Depends(get_db), Security(get_current_user, scopes=["admin"])], tags=["Forum"], prefix="/crud/forum")
 
@@ -34,11 +37,11 @@ def get_forum_by_id(forum_id: int, page: int, db: Session = Depends(get_db)):
 
 
 @router.post("/add", response_model=ForumDB)
-def create_forum(forum: ForumCreate, db: Session = Depends(get_db)):
+def create_forum(forum: ForumCreate, current_user: Annotated[UserDB, Security(get_current_user, scopes=["user"])], db: Session = Depends(get_db)):
     stmt = select(models.Forum).where(models.Forum.name == forum.name)
     if db.execute(stmt).first() is not None:
         raise HTTPException(status_code=444, detail="This forum already exists")
-    return crud_forum.create_forum_db(forum, db)
+    return crud_forum.create_forum_db(forum, current_user.id, db)
 
 
 @router.delete("/{forum_id}")

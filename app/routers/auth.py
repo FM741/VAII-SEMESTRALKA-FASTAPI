@@ -13,8 +13,10 @@ from starlette.responses import Response
 from app.crud import user as crud_user
 from ..dependencies import get_db
 from ..schemas.exception import ExceptionHandler
+from ..schemas.post import PostDB
 from ..schemas.token import TokenData, Token
-from ..schemas.user import UserDB
+from ..schemas.topic import TopicDB
+from ..schemas.user import UserDB, UserAll
 
 SECRET_KEY = "fc9e8a02e0908115305c0bfba8f99b794b7d7200da92ec4ac4cb18a5d418298b"
 ALGORITHM = "HS256"
@@ -58,9 +60,8 @@ def get_current_user(security_scopes: SecurityScopes, access_token: str = Cookie
         authenticate_value = f'Bearer scope="{security_scopes.scope_str}"'
     else:
         authenticate_value = "Bearer"
-    exception = ExceptionHandler(status_code=401,
-                                 detail="Unauthorized!",
-                                 headers={"WWW-Authenticate": authenticate_value})
+    exception = ExceptionHandler(status_code=403, detail="Not enough permissions",
+                                 headers={"error_place": "permissions"})
     try:
         if access_token is None:
             token_data = TokenData(scopes=["guest"])
@@ -79,8 +80,9 @@ def get_current_user(security_scopes: SecurityScopes, access_token: str = Cookie
     user = crud_user.get_user_by_username(token_data.username, db)
     if user is None:
         return None
-    return UserDB(id=user.id, username=user.username, gender=user.gender, date_of_creation=user.date_of_creation,
-                  is_admin=user.is_admin)
+    return UserAll(id=user.id, username=user.username, gender=user.gender, date_of_creation=user.date_of_creation,
+                   is_admin=user.is_admin, topics=[TopicDB.model_validate(t) for t in user.topics],
+                   posts=[PostDB.model_validate(t) for t in user.posts], img_url=user.img_url)
 
 
 @router.post("/token")

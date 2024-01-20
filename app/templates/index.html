@@ -10,53 +10,52 @@
 
 </head>
 <body>
-{% if pagination %}
-    <div class="index-main">
-        {% include 'nav.html' %}
-        <div class="wrapper-content">
-            <div class="content content-header align-center">
-                <div class="content-forum"> Forum</div>
-                <div class="content-posts"> Topics</div>
-                <div class="content-last-post">Last post</div>
-            </div>
-            {% for forum in pagination.items %}
-                <div class="content ">
-                    <a href="/forum/{{ forum.id }}">
-                        <div class="content-forum"> {{ forum.name }}</div>
-                    </a>
-                    {% if user.is_admin %}
-                        <button onclick="deleteForum({{ forum.id }})">
-                            X
-                        </button>
-                        <button onclick="window.location = '/edit/{{ forum.id }}'">
-                            E
-                        </button>
-                    {% endif %}
-                    <div class="content-posts align-center">{{ forum.topics|count }}</div>
-                    {% if forum.topics %}
-                        <div class="content-last-post align-center">{{ forum.topics[-1].name }}</div>
-                    {% else %}
-                        <div class="content-last-post align-center">-</div>
-                    {% endif %}
 
-                </div>
-            {% endfor %}
+<div class="index-main">
+    {% include 'nav.html' %}
+    <div class="wrapper-content">
+        <div class="content content-header align-center">
+            <div class="content-forum"> Forum</div>
+            <div class="content-posts"> Topics</div>
+            <div class="content-last-post">Last post</div>
         </div>
-        <footer>
-            <a href="/add">ADD FORUM</a>
-            {% if page > 1 %}
-                <a href="{{ url_for('index').include_query_params(page = page - 1) }}">PREV</a>
-            {% endif %}
-            {% for pages in range(pagination.pages) %}
-                <a href="{{ url_for('index').include_query_params(page = pages + 1) }}" {% if page == pages + 1 %}
-                   class='disabled' {% endif %}>{{ pages + 1 }}</a>
-            {% endfor %}
-            {% if page < pagination.pages %}
-                <a href="{{ url_for('index').include_query_params(page = page + 1) }}">NEXT</a>
-            {% endif %}
-        </footer>
+        {% for forum in pagination.items %}
+            <div class="content ">
+                <a href="/forum/{{ forum.id }}">
+                    <div class="content-forum"> {{ forum.name }}</div>
+                </a>
+                {% if user.is_admin %}
+                    <button onclick="deleteForum({{ forum.id }})">
+                        X
+                    </button>
+                    <button onclick="window.location = '/edit/{{ forum.id }}'">
+                        E
+                    </button>
+                {% endif %}
+                <div class="content-posts align-center">{{ forum.topics|count }}</div>
+                {% if forum.topics %}
+                    <div class="content-last-post align-center">{{ forum.topics[-1].name }}</div>
+                {% else %}
+                    <div class="content-last-post align-center">-</div>
+                {% endif %}
+
+            </div>
+        {% endfor %}
     </div>
-{% endif %}
+    <footer>
+        <a href="/add">ADD FORUM</a>
+        {% if page > 1 %}
+            <a href="{{ url_for('index').include_query_params(page = page - 1) }}">PREV</a>
+        {% endif %}
+        {% for pages in range(pagination.pages) %}
+            <a href="{{ url_for('index').include_query_params(page = pages + 1) }}" {% if page == pages + 1 %}
+               class='disabled' {% endif %}>{{ pages + 1 }}</a>
+        {% endfor %}
+        {% if page < pagination.pages %}
+            <a href="{{ url_for('index').include_query_params(page = page + 1) }}">NEXT</a>
+        {% endif %}
+    </footer>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/static/js/scripts.js"></script>
 </body>
