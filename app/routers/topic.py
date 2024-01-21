@@ -27,7 +27,7 @@ def get_all_topics(current_user: Annotated[UserDB, Security(get_current_user, sc
 def get_topic_by_id(topic_id: int, page: int, db: Session = Depends(get_db)):
     topic = crud_topic.get_by_topic_id_db(topic_id, db)
     if not topic:
-        raise HTTPException(status_code=404, detail="Topic not found")
+        raise ExceptionHandler(status_code=404, detail="Topic not found")
     if not topic.posts:
         raise ExceptionHandler(status_code=404, detail="No posts found in this topic",
                                headers={"error_place": "nopost"})

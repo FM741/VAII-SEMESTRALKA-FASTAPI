@@ -13,6 +13,7 @@ from app.routers.auth import get_current_user
 from app.routers.forum import get_all_forums, get_forum_by_id
 from app.routers.topic import get_topic_by_id
 from app.routers.user import get_user_by_username
+from app.schemas.exception import ExceptionHandler
 from app.schemas.user import UserDB, UserAll
 
 router = APIRouter(dependencies=[Depends(get_db)], tags=["Html"])

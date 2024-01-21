@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/static/css/styles.css" rel="stylesheet">
+    <link href="../static/css/styles.css" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="32x32" href="static/img/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="static/img/favicon/favicon-16x16.png">
     <title>Cats;Gate</title>
@@ -14,23 +14,33 @@
 <div class="index-main">
     {% include 'nav.html' %}
     <div class="wrapper-content">
-        <div class="content content-header align-center">
+        <div class="content content-header">
             <div class="content-forum"> Forum</div>
-            <div class="content-posts"> Topics</div>
-            <div class="content-last-post">Last post</div>
+            <div class="content-forum-button-s"></div>
+            <div class="content-posts align-center"> Topics</div>
+            <div class="content-last-post align-center">Last post</div>
         </div>
         {% for forum in pagination.items | sort(attribute='id') %}
-            <div class="content ">
+            <div class="content">
                 <a href="/forum/{{ forum.id }}">
                     <div class="content-forum"> {{ forum.name }}</div>
                 </a>
                 {% if user.is_admin %}
-                    <button onclick="deleteForum({{ forum.id }})">
-                        X
-                    </button>
-                    <button onclick="window.location = '/edit/{{ forum.id }}'">
-                        E
-                    </button>
+                    <div class="content-forum-button-s align-center">
+                        <a class="remove" onclick="deleteForum({{ forum.id }})">
+                            Remove
+                        </a>
+                        <hr>
+                        <a class="edit" onclick="window.location = '/edit/{{ forum.id }}'">
+                            Edit
+                        </a>
+                    </div>
+                    <a class="remove" onclick="deleteForum({{ forum.id }})">
+                        <div class="content-forum content-forum-button align-center">Remove forum</div>
+                    </a>
+                    <a class="edit" onclick="window.location = '/edit/{{ forum.id }}'">
+                        <div class="content-forum content-forum-button align-center">Edit forum</div>
+                    </a>
                 {% endif %}
                 <div class="content-posts align-center">{{ forum.topics|count }}</div>
                 {% if forum.topics %}

@@ -15,7 +15,7 @@ a {
 }
 
 a:hover {
-    color: #e7e7e7;
+    color: #5da7fd;
     text-decoration: underline;
 }
 
@@ -63,6 +63,10 @@ hr {
     font-size: large;
 }
 
+.italic {
+    font-style: italic;
+}
+
 .index-main {
     background-image: url("../img/bg.jpg");
     background-color: #c4c8cb;
@@ -90,9 +94,10 @@ hr {
     width: 100%;
     height: 100%;
     text-align: left;
+    font-size: 24px;
 }
 
-.navbar-content a {
+.navbar-content .confirm-button {
     font-size: 24px;
 }
 
@@ -175,6 +180,12 @@ hr {
     font-style: italic;
 }
 
+.navbar-collapse-content .confirm-button {
+    font-size: large;
+    font-weight: bold;
+    font-style: italic;
+}
+
 .navbar-collapse-content--opened {
     display: block;
 }
@@ -212,7 +223,7 @@ hr {
     margin: auto;
     font-weight: bolder;
     border-top: #ffffff solid 2px;
-
+    align-items: center;
 }
 
 .content-header {
@@ -238,6 +249,30 @@ hr {
 .content-forum {
     flex: 1 1 150px;
     padding: 15px;
+}
+
+.content-forum-button {
+    flex: 0 1 auto;
+    padding: 15px;
+
+}
+
+.content-forum-button-s {
+    display: none;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 13px;
+    min-width: 50px;
+}
+
+@media only screen and (max-width: 1000px) {
+    .content-forum-button {
+        display: none;
+    }
+
+    .content-forum-button-s {
+        display: block;
+    }
 }
 
 .content-posts {
@@ -272,7 +307,8 @@ footer {
 
 .register {
     width: 350px;
-    height: 500px;
+    height: auto;
+    min-height: 500px;
     background-color: #071013;
     position: relative;
     margin: auto;
@@ -330,18 +366,19 @@ footer {
     height: 40px;
     border: none;
     outline: none;
-    cursor: pointer;
     border-radius: 4px;
     font-size: 16px;
     font-weight: 700;
 }
 
 
-.default-button:hover {
+.default-button:hover:enabled {
     background-color: #d2d3d2;
+    cursor: pointer;
+
 }
 
-.default-button:active {
+.default-button:active:enabled {
     background-color: #44b644;
 }
 
@@ -426,6 +463,27 @@ footer {
 
 }
 
+@media only screen and (max-width: 600px) {
+    .topic-content-header {
+        display: block;
+    }
+
+    .topic-content-body {
+        display: block;
+    }
+
+    .topic-content-author {
+        border-bottom: white solid 1px;
+        margin: 5px;
+    }
+
+    .topic-content-message {
+        margin: 5px;
+    }
+
+}
+
+
 .user-image {
     height: 128px;
     width: 128px;
@@ -449,7 +507,7 @@ footer {
 }
 
 .error-detail {
-    font-size: 20px;
+    color: red;
 }
 
 .pagination {
@@ -457,7 +515,7 @@ footer {
 }
 
 .profile-content {
-    width: 70%;
+    width: 60%;
     background-color: #071013;
     margin: auto;
     overflow: auto;
@@ -468,18 +526,39 @@ footer {
     display: flex;
     word-break: break-all;
     padding: 15px 0 15px 0;
+
+}
+
+@media only screen and (max-width: 1000px) {
+    .profile-content {
+        width: 100%;
+    }
+
+    .profile-content-body {
+        display: block;
+        min-width: 0;
+    }
+
+    .profile-content-row1 {
+        margin: 5px 25px 5px 25px;
+        min-width: 0;
+
+    }
+
+    .profile-content-row2 {
+        margin: 20px 25px 5px 25px !important;
+    }
 }
 
 .profile-content-row1 {
-    flex: 1 0 auto;
+    flex: 1 1 auto;
     margin: 5px 25px 5px 25px;
 
 }
 
 .profile-content-row2 {
-    flex-direction: column;
     flex: 1 1 auto;
-    margin: 5px;
+    margin: 5px 25px 5px 25px;
 }
 
 .confirm-button {
@@ -490,14 +569,41 @@ footer {
     padding: 0;
     text-decoration: none;
     color: #F2F4F3;
-    font-size: 24px;
 }
 
 .confirm-button:hover {
-    color: #e7e7e7;
+    color: #5da7fd;
     text-decoration: underline;
 }
 
+.remove {
+    cursor: pointer;
+}
+
+.remove:hover {
+    color: red;
+}
+
+.edit {
+    cursor: pointer;
+}
+
+.edit:hover {
+    color: orange;
+}
+
+.wrapper {
+    overflow: auto;
+}
+
+.first {
+    float: left;
+    margin-right: 5px;
+}
+
+.second {
+    float: left;
+}
 
 
 

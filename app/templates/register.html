@@ -24,11 +24,11 @@
                     </div>
                     <div class="form-row">
                         <label for="password">Password</label> <br>
-                        <input type="password" name="password" id="password" placeholder="Enter password..." required minlength="5">
+                        <input type="password" name="password" id="password" placeholder="Enter password..." required minlength="5" onkeyup="validate_password()">
                     </div>
                     <div class="form-row">
                         <label for="passcheck">Repeat Password</label> <br>
-                        <input type="password" id="passcheck" placeholder="Enter password again..." required>
+                        <input type="password" id="passcheck" placeholder="Enter password again..." onkeyup="validate_password()" required>
                     </div>
                     <div class="form-row">
                         <div class="fs-big"><b> Please select your gender: </b></div>
@@ -51,10 +51,11 @@
                     </div>
 
                     <div class="form-row">
-                        <button class="default-button">Register</button>
+                        <button id="confirm-register" class="default-button" disabled>Register</button>
                     </div>
-                    <div class="form-row" id="error">
+                    <div class="form-row error-detail align-center" id="error">
                     </div>
+                    <div id="check_failed" class="align-center"></div>
                 </div>
             </form>
         </div>

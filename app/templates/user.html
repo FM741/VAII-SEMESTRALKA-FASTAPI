@@ -18,25 +18,45 @@
                 <div class="profile-content-row1">
                     <span class="fs-big">Profile page:</span> <br>
                     <hr>
-                    Username: {{ userProfile.username }} <br>
-                    Profile created: <span class="toLocal">{{ userProfile.date_of_creation }}</span> <br>
-                    <img src="{{ userProfile.img_url }}" class="user-image" alt="user_image"> <br>
-                    <form onsubmit="submitImage(); return false;" id="form-img">
-                        <input type="file" name="file"/> <br>
-                        <button class="default-button">Change profile picture</button>
-                    </form>
-                    <div id="error">
+                    <span>Username: {{ userProfile.username }}</span> <br>
+                    <div class="wrapper">
+                        <div class="first">Profile created: </div>
+                        <div class="toLocal second">{{ userProfile.date_of_creation }}</div>
                     </div>
+                    <div>
+                        <img src="{{ userProfile.img_url }}" class="user-image" alt="user_image">
+                    </div>
+                    {% if userProfile.id == user.id %}
+                        <form onsubmit="submitImage(); return false;" id="form-img">
+                            <input type="file" name="file"/> <br>
+                            <button class="default-button">Change profile picture</button>
+                        </form>
+                        <div id="error">
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="vl"></div>
                 <div class="profile-content-row2">
                     <span class="fs-big">User information:</span> <br>
                     <hr>
-                    Gender: {{ userProfile.gender }} <br>
-                    Posts count: {{ userProfile.posts | count }} <br>
-                    Topics count: {{ userProfile.topics | count }} <br>
+                    <span>Gender: {{ userProfile.gender }}</span> <br>
+                    <span>Posts count: {{ userProfile.posts | count }}</span> <br>
+                    <span>Topics count: {{ userProfile.topics | count }}</span> <br>
                 </div>
             </div>
+            {% if userProfile.id == user.id %}
+                <hr>
+                <div class="profile-content-body">
+                    <div class="profile-content-row1">
+                        <span class="fs-big">Control panel:</span> <br>
+                        <hr>
+                        <button class="default-button">Change Username</button>
+                        <br>
+                        <button class="default-button">Change Password</button>
+                        <br>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
     <footer>

@@ -11,6 +11,25 @@ dropdownBtn.addEventListener('click', (_evt) => {
     content.classList.toggle('navbar-collapse-content--opened');
 });
 
+function validate_password() {
+
+    let password = document.getElementById('password').value;
+    let password_check = document.getElementById('passcheck').value;
+    if (password !== password_check && password.length !== 0) {
+        document.getElementById('check_failed').style.color = 'red';
+        document.getElementById('check_failed').innerHTML
+            = 'Password not matching';
+        document.getElementById('confirm-register').disabled = true;
+
+    } else {
+        document.getElementById('check_failed').style.color = 'green';
+        document.getElementById('check_failed').innerHTML =
+            'Password matching';
+        document.getElementById('confirm-register').disabled = false;
+
+    }
+}
+
 // Ajax calls
 let url = window.location.href.split("/")
 const submitForum = () => {
@@ -271,7 +290,7 @@ const loginUser = (user) => {
 }
 
 $(function () {
-    $('#logout').submit(function () {
+    $('.logout').submit(function () {
         $.ajax({
             type: 'POST',
             url: '/logout',

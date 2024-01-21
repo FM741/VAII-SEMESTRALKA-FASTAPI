@@ -5,12 +5,13 @@
                 <ul>
                     <li><a href="/"> Home</a></li>
                     {% if user is not none %}
+                        <li><a href="/profile/{{ user.username }}"> {{ user.username }} </a></li>
                         <li>
-                            <form action="/logout" method="POST">
-                                <button type="submit" name="logout" value="logout">Go</button>
+                            <form class="logout" method="POST">
+                                <button type="submit" class="confirm-button">Logout
+                                </button>
                             </form>
                         </li>
-                        <li><a href="/profile/{{ user.username }}"> {{ user.username }} </a></li>
                     {% else %}
                         {% if request.url.path != "/register" %}
                             <li><a href="/register"> Register </a></li>
@@ -26,8 +27,8 @@
             <li><a href="/"> Cats;Gate</a></li>
             {% if user is not none %}
                 <li>
-                    <form id="logout" method="POST">
-                        <button type="submit" name="logout" value="logout" class="confirm-button">Logout</button>
+                    <form class="logout" method="POST">
+                        <button type="submit" class="confirm-button remove">Logout</button>
                     </form>
                 </li>
                 <li><a href="/profile/{{ user.username }}"> {{ user.username }} </a></li>

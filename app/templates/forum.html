@@ -13,10 +13,11 @@
 <div class="index-main">
     {% include 'nav.html' %}
     <div class="wrapper-content">
-        <div class="content content-header align-center">
+        <div class="content content-header">
             <div class="content-forum">Topic</div>
-            <div class="content-posts">Posts</div>
-            <div class="content-last-post">Last reply</div>
+            <div class="content-forum-button-s"></div>
+            <div class="content-posts align-center">Posts</div>
+            <div class="content-last-post align-center">Last reply</div>
         </div>
         {% for topic in pagination.items | sort(attribute='id') %}
             <div class="content ">
@@ -24,12 +25,21 @@
                     <div class="content-forum">{{ topic.name }}</div>
                 </a>
                 {% if topic.user_id == user.id or user.is_admin %}
-                    <button onclick="deleteTopic({{ topic.id }})">
-                        X
-                    </button>
-                    <button onclick="window.location = '/topic/{{ topic.id }}/edit'">
-                        E
-                    </button>
+                    <div class="content-forum-button-s align-center">
+                        <a class="remove" onclick="deleteTopic({{ topic.id }})">
+                            Remove
+                        </a>
+                        <hr>
+                        <a class="edit" onclick="window.location = '/topic/{{ topic.id }}/edit'">
+                            Edit
+                        </a>
+                    </div>
+                    <a class="remove" onclick="deleteTopic({{ topic.id }})">
+                        <div class="content-forum content-forum-button align-center">Remove topic</div>
+                    </a>
+                    <a class="edit" onclick="window.location = '/topic/{{ topic.id }}/edit'">
+                        <div class="content-forum content-forum-button align-center">Edit topic</div>
+                    </a>
                 {% endif %}
                 <div class="content-posts align-center">{{ topic.posts | count }}</div>
                 {% if topic.posts %}

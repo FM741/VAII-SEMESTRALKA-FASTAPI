@@ -29,19 +29,27 @@
                 <div class="topic-content-body ">
                     <div class="topic-content-author align-center">
                         <img class="user-image" src="{{ post.user.img_url }}" alt="User image"> <br>
-                        <p class="fs-medium"> {{ post.user.username }} </p>
-                        <p class="fs-small toLocal">{{ post.user.date_of_creation }} </p>
-                        {% if post.user_id == user.id or user.is_admin %}
-                            <button id="delete_post" onclick="deletePost()">Remove Post</button>
-                            <button id="edit_post" onclick="window.location = '/post/{{ post.id }}'">Edit Post</button>
-                        {% endif %}
+                        <div class="fs-medium"> {{ post.user.username }} </div>
+                        <div class="fs-small">Joined:
+                            <div class="toLocal">{{ post.user.date_of_creation }}</div>
+                        </div>
+                        <div class="fs-small">Posts: {{ post.user.posts | count }} </div>
                     </div>
                     <div class="vl"></div>
                     <div class="topic-content-message">
                         <div class="topic-content-message-header">{{ post.header }}</div>
-                        <div class="topic-content-message-body">{{ post.body }}</div>
-                        <div class="topic-content-message-footer"><a
-                                href="/topic/{{ topic_id }}/add?header={{ post.header }}">Reply</a></div>
+                        <div class="topic-content-message-body" id="post-{{ post.id }}" }}>{{ post.body }}</div>
+                        <div class="topic-content-message-footer">
+                            <a href="/topic/{{ topic_id }}/add?header={{ post.header }}">Reply</a>
+                            {% if post.user_id == user.id or user.is_admin %}
+                                |
+                                <a id="delete_post" class="remove" onclick="deletePost()">Remove Post</a>
+                                |
+                                <a id="edit_post"  class="edit" onclick="window.location = '/post/{{ post.id }}'">Edit Post</a>
+                                |
+                            {% endif %}
+                        </div>
+
                     </div>
                 </div>
             </div>
