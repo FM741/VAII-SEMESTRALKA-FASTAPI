@@ -4,16 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="512d1c35-d0ab-4cb9-aa4e-1e071781b69e" name="Changes" comment="css changes, profile page changes + refactor and validation checks">
+    <list default="true" id="512d1c35-d0ab-4cb9-aa4e-1e071781b69e" name="Changes" comment="Front end changes and fixes">
+      <change afterPath="$PROJECT_DIR$/app/templates/change_pass.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/change_username.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/crud/post.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/crud/post.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/crud/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/crud/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routers/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routers/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routers/forum.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routers/forum.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/routers/html.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routers/html.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/routers/topic.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routers/topic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routers/post.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routers/post.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routers/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routers/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/schemas/forum.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/forum.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/schemas/post.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/post.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/schemas/token.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/token.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/schemas/topic.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/topic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/schemas/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/schemas/user.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/static/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/static/js/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/js/scripts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/forum.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/forum.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/forum_add.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/forum_add.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/forum_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/forum_edit.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/nav.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/nav.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/post_add.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/post_add.html" afterDir="false" />
@@ -33,8 +44,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
-        <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -194,7 +205,7 @@
       <workItem from="1705764820615" duration="7695000" />
       <workItem from="1705787039560" duration="5229000" />
       <workItem from="1705798343180" duration="10436000" />
-      <workItem from="1705846470976" duration="10137000" />
+      <workItem from="1705846470976" duration="13267000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -260,7 +271,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705811343637</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Front end changes and fixes">
+      <option name="closed" value="true" />
+      <created>1705867782469</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1705867782469</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -290,6 +309,7 @@
     <MESSAGE value="auth fixes, image upload, added a me page + frontend changes" />
     <MESSAGE value="menu.png added back" />
     <MESSAGE value="css changes, profile page changes + refactor and validation checks" />
-    <option name="LAST_COMMIT_MESSAGE" value="css changes, profile page changes + refactor and validation checks" />
+    <MESSAGE value="Front end changes and fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Front end changes and fixes" />
   </component>
 </project>

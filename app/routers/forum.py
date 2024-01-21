@@ -40,7 +40,7 @@ def get_forum_by_id(forum_id: int, page: int, db: Session = Depends(get_db)):
 def create_forum(forum: ForumCreate, current_user: Annotated[UserDB, Security(get_current_user, scopes=["user"])], db: Session = Depends(get_db)):
     stmt = select(models.Forum).where(models.Forum.name == forum.name)
     if db.execute(stmt).first() is not None:
-        raise HTTPException(status_code=444, detail="This forum already exists")
+        raise HTTPException(status_code=409, detail="This forum already exists")
     return crud_forum.create_forum_db(forum, current_user.id, db)
 
 

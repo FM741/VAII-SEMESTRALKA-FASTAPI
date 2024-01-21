@@ -30,10 +30,18 @@ function validate_password() {
     }
 }
 
+document.querySelectorAll(".toLocal").forEach(
+    function (i) {
+        i.innerText = new Date(i.innerText + "Z").toLocaleString('en-US', {
+            weekday: "long", year: "numeric",
+            month: "short", day: "numeric", hour: "numeric", minute: "numeric", hour12: false
+        });
+    }
+);
+
 // Ajax calls
 let url = window.location.href.split("/")
 const submitForum = () => {
-    console.log('request_body_param pushed')
     let forum = {
         "name": $("#forum_name").val(),
     };
@@ -48,7 +56,8 @@ const submitForum = () => {
             window.location = "/";
         },
         error: function (xhr, error) {
-            alert("STATUS: " + xhr.status + "\nCannot create -" + JSON.parse(xhr.responseText).detail);
+            let message = JSON.parse(xhr.responseText).detail;
+            $("#error").html(message);
         }
     });
 }
@@ -68,12 +77,12 @@ const editForum = (forum_id) => {
             window.location = document.referrer
         },
         error: function (xhr, error) {
-            alert("STATUS: " + xhr.status + "\n" + JSON.parse(xhr.responseText).detail);
+            let message = JSON.parse(xhr.responseText).detail;
+            $("#error").html(message);
         }
     });
 }
 const submitTopic = () => {
-    console.log('request_body_param pushed')
     let topic = {
         "name": $("#topic_name").val(),
         "forum_id": url[4],
@@ -119,7 +128,6 @@ const editTopic = (topic_id) => {
 }
 
 const submitPost = () => {
-    console.log('request_body_param pushed')
     let post = {
         "header": $("#header").val(),
         "body": $("#text-area").val(),
@@ -155,7 +163,6 @@ const deleteTopic = (topic_id) => {
         dataType: "json",
         contentType: "application/json",
         success: function () {
-            console.log("removed");
             window.location.reload();
         },
     });
@@ -173,7 +180,6 @@ const deletePost = () => {
         dataType: "json",
         contentType: "application/json",
         success: function () {
-            console.log("removed");
             window.location.reload();
         },
     });
@@ -198,7 +204,6 @@ const editPost = (post_id) => {
 
 
 const addPost = (post) => {
-    console.log("sending", post)
     $.ajax({
         url: "/crud/post/add",
         type: "POST",
@@ -213,7 +218,6 @@ const addPost = (post) => {
 }
 
 const submitUser = () => {
-    console.log('request_body_param pushed')
     let user = {
         "username": $("#username").val(),
         "password": $("#password").val(),
@@ -238,6 +242,28 @@ const submitUser = () => {
         }
     });
 }
+
+const changePass = () => {
+    let user = {
+        "username": $("#username").val(),
+        "password": $("#password").val(),
+    };
+    $.ajax({
+        url: "/crud/user/edit",
+        type: "PATCH",
+        data: JSON.stringify(user),
+        dataType: "json",
+        contentType: "application/json",
+        success: function (data) {
+            logout();
+        },
+        error: function (xhr, error) {
+            let message = JSON.parse(xhr.responseText).detail;
+            $("#error").html(message);
+        }
+    });
+}
+
 
 const submitImage = () => {
     let form = $("#form-img")[0];
@@ -269,7 +295,6 @@ const login = () => {
 
 
 const loginUser = (user) => {
-    console.log('request_body_param pushed')
     $.ajax({
         url: "/token",
         type: "POST",
@@ -289,28 +314,24 @@ const loginUser = (user) => {
     });
 }
 
-$(function () {
-    $('.logout').submit(function () {
-        $.ajax({
-            type: 'POST',
-            url: '/logout',
-            success: function () {
-                location.reload();
-            },
-        });
-        return false;
+function logout() {
+    $.ajax({
+        type: 'POST',
+        url: '/logout',
+        success: function () {
+            location.reload();
+        },
     });
-})
+}
+
+$(function () {
+    $('.logout').submit(function (e) {
+        e.preventDefault();
+        logout();
+    });
+});
 
 const dangerousCheck = () => {
     return confirm("Are you sure? This might delete all children!") === false;
 }
 
-document.querySelectorAll(".toLocal").forEach(
-    function (i) {
-        i.innerText = new Date(i.innerText + "Z").toLocaleString('en-US', {
-            weekday: "long", year: "numeric",
-            month: "short", day: "numeric", hour: "numeric", minute: "numeric", hour12: false
-        });
-    }
-);

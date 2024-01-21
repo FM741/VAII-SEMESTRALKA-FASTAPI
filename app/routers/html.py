@@ -105,12 +105,26 @@ def get_html_patch_post(request: Request, post_id: int,
 
 
 @router.get("/profile/{username}", response_class=HTMLResponse)
-def get_html_patch_post(request: Request,
-                        current_user: Annotated[UserAll, Security(get_current_user, scopes=["user"])],
-                        username: str,
-                        db: Session = Depends(get_db)):
+def get_html_profile(request: Request,
+                     current_user: Annotated[UserAll, Security(get_current_user, scopes=["user"])],
+                     username: str,
+                     db: Session = Depends(get_db)):
     user = get_user_by_username(username, current_user, db)
     return templates.TemplateResponse("user.html", {"request": request, "user": current_user, "userProfile": user})
+
+
+@router.get("/change-pass", response_class=HTMLResponse)
+def get_html_change_pass(request: Request,
+                         current_user: Annotated[UserAll, Security(get_current_user, scopes=["user"])],
+                         db: Session = Depends(get_db)):
+    return templates.TemplateResponse("change_pass.html", {"request": request, "user": current_user})
+
+
+@router.get("/change-username", response_class=HTMLResponse)
+def get_html_change_username(request: Request,
+                             current_user: Annotated[UserAll, Security(get_current_user, scopes=["user"])],
+                             db: Session = Depends(get_db)):
+    return templates.TemplateResponse("change_username.html", {"request": request, "user": current_user})
 
 
 def exception_handler(request: Request, exc: HTTPException):

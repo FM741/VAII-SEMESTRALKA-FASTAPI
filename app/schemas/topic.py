@@ -1,10 +1,10 @@
 from typing import Optional
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class TopicBase(BaseModel):
-    name: str
+    name: str = Field(min_length=5, max_length=32)
     forum_id: int
 
 

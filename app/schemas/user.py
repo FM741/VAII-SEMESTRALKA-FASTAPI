@@ -39,6 +39,6 @@ class UserCreate(BaseModel):
 
 class UserUpdate(BaseModel):
     model_config = ConfigDict(from_attributes=True)
-    id: Optional[int] = None
-    username: Optional[str] = None
+    username: Optional[str] = Field(None, min_length=5)
+    password: Optional[str] = Field(None, min_length=5)
     is_admin: Optional[bool] = None

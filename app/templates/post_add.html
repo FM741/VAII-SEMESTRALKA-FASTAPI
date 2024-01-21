@@ -20,12 +20,12 @@
                 <form onsubmit="submitPost(); return false;">
                     <div class="form-row">
                         <label for="header">Header:</label> <br>
-                        <input type="text" name="header" id="header" placeholder="Enter post header..."
+                        <input type="text" name="header" id="header" placeholder="Enter post header..." required minlength="3" maxlength="64"
                                {% if request.query_params.get("header") %} value="Re: {{ request.query_params.get("header") }} {% endif %}">
                     </div>
                     <div class="form-row">
                     <textarea name="body" id="text-area" cols="60" rows="10"
-                              placeholder="Write post body..."></textarea>
+                              placeholder="Write post body..." required minlength="1" maxlength="6000"></textarea>
                     </div>
                     <div class="form-row">
                         <button class="default-button">Submit</button>

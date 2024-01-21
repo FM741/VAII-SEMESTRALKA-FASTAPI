@@ -63,7 +63,7 @@ def get_current_user(security_scopes: SecurityScopes, access_token: str = Cookie
             token_data = TokenData(scopes=["guest"])
         else:
             payload = jwt.decode(access_token, SECRET_KEY, algorithms=[ALGORITHM])
-            username: str = payload.get("sub")
+            username: str = payload.get("username")
             if username is None:
                 raise exception
             token_scopes = payload.get("scopes", [])
@@ -101,7 +101,7 @@ def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depen
         form_data.scopes = ["guest", "user"]
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.username, "scopes": form_data.scopes}, expires_delta=access_token_expires
+        data={"username": user.username, "scopes": form_data.scopes}, expires_delta=access_token_expires
     )
     response.set_cookie(key="access_token", value=access_token, max_age=int(access_token_expires.total_seconds()))
     return Token(access_token=access_token, token_type="bearer")

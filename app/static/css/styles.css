@@ -450,6 +450,7 @@ footer {
     font-weight: 400;
     flex-grow: 1;
     padding: 15px;
+    white-space: pre-line
 
 }
 

@@ -13,7 +13,7 @@ class Forum(Base):
     __tablename__ = "forums"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(60), unique=True)
+    name: Mapped[str] = mapped_column(String(16), unique=True)
     date_of_creation: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
     topics: Mapped[List["Topic"]] = relationship("Topic", back_populates="forum", cascade="all,delete,delete-orphan",
                                                  passive_deletes=True)
@@ -25,7 +25,7 @@ class Topic(Base):
     __tablename__ = "topics"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(60))
+    name: Mapped[str] = mapped_column(String(32))
     date_of_creation: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
     forum_id: Mapped[int] = mapped_column(ForeignKey("forums.id", ondelete="CASCADE"))
     forum: Mapped["Forum"] = relationship(back_populates="topics")
@@ -41,7 +41,7 @@ class Post(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
 
-    header: Mapped[str] = mapped_column(String(100))
+    header: Mapped[str] = mapped_column(String(64))
     body: Mapped[str] = mapped_column(String(6000))
     date_of_creation: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
     topic_id: Mapped[int] = mapped_column(ForeignKey("topics.id", ondelete="CASCADE"))

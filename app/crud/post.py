@@ -41,13 +41,3 @@ def update_post_by_id(post_id: int, post_update: PostUpdate, db: Session):
     db.commit()
     db.refresh(post_db)
     return post_db
-
-# def update_topic_by_id(topic_id: int, topic_update: TopicUpdate, db: Session):
-#     topic_db = db.get(models.Topic, topic_id)
-#     topic_dict = topic_update.model_dump(exclude_unset=True)
-#     for key, value in topic_dict.items():
-#         setattr(topic_db, key, value)
-#     db.add(topic_db)
-#     db.commit()
-#     db.refresh(topic_db)
-#     return topic_db

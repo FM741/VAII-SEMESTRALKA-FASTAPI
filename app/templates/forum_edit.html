@@ -20,10 +20,12 @@
                 <div class="form-col">
                     <div class="form-row">
                         <label for="forum_name">Edit Forum Name</label> <br>
-                        <input type="text" name="forum_name" id="forum_name" placeholder="Enter forum name...">
+                        <input type="text" name="forum_name" id="forum_name" placeholder="Enter forum name..." required minlength="3" maxlength="16">
                     </div>
                     <div class="form-row">
                         <button class="default-button" id="forum_add">Submit</button>
+                    </div>
+                    <div class="form-row fs-medium error-detail" id="error">
                     </div>
                 </div>
             </form>

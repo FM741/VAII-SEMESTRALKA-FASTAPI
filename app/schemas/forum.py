@@ -1,10 +1,10 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from .topic import TopicBase
 
 
 class ForumBase(BaseModel):
-    name: str
+    name: str = Field(min_length=3, max_length=16)
 
 
 class ForumCreate(ForumBase):

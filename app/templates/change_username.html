@@ -3,31 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../static/css/styles.css" rel="stylesheet">
+    <link href="/static/css/styles.css" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon/favicon-16x16.png">
-    <title>Cats;Gate</title>
+    <title>Cats;Gate - Register</title>
 </head>
 <body>
 <div class="index-main">
     {% include 'nav.html' %}
     <div class="wrapper-content">
-        <div class="login form">
-            <form onsubmit="submitForum(); return false">
-                <div class="form-row">
-                    <h2>Add Forum</h2>
-                </div>
+        <div class="register form">
+            <div class="form-row">
+                <h2>Change username</h2>
+            </div>
+            <form onsubmit="changePass(); return false;">
                 <div class="form-col">
                     <div class="form-row">
-                        <label for="forum_name">Forum Name</label> <br>
-                        <input type="text" name="forum_name" id="forum_name" placeholder="Enter forum name..." required minlength="3" maxlength="16">
+                        <label for="username">Username</label> <br>
+                        <input type="text" name="username" id="username" placeholder="Enter username..." required
+                               minlength="5" maxlength="16">
                     </div>
                     <div class="form-row">
-                        <button class="default-button" id="forum_add">Submit</button>
+                        <button id="confirm-register" class="default-button">Change username</button>
                     </div>
-                    <div class="form-row fs-medium error-detail" id="error">
+                    <div class="form-row error-detail align-center" id="error">
                     </div>
+                    <div class="form-row" id="error">
+                    </div>
+                    <div id="check_failed" class="align-center"></div>
                 </div>
+
             </form>
         </div>
     </div>
@@ -35,6 +40,5 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/static/js/scripts.js"></script>
-
 </body>
 </html>

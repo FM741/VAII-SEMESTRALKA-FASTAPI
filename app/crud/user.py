@@ -40,6 +40,9 @@ def get_user_by_username_db(username: str, db: Session):
 
 def update_user_by_id(user_id: int, user_update: UserUpdate, db: Session):
     user_db = db.get(models.User, user_id)
+    if user_update.password:
+        hashed = get_password_hash(user_update.password)
+        user_update.password = hashed
     user_dict = user_update.model_dump(exclude_unset=True)
     for key, value in user_dict.items():
         setattr(user_db, key, value)

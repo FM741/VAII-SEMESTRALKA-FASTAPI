@@ -20,7 +20,7 @@
                 <div class="form-col">
                     <div class="form-row">
                         <label for="topic_name">Topic Name</label> <br>
-                        <input type="text" name="topic_name" id="topic_name" placeholder="Enter topic name..." value="{{ topic.name }}">
+                        <input type="text" name="topic_name" id="topic_name" placeholder="Enter topic name..." required minlength="5" maxlength="32" value="{{ topic.name }} ">
                     </div>
                      <div class="form-row">
                         <label for="select_forum">Move to forum:</label> <br>

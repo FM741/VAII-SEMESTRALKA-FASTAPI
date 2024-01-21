@@ -1,9 +1,9 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class PostBase(BaseModel):
-    header: str
-    body: str
+    header: str = Field(min_length=3, max_length=64)
+    body: str = Field(min_length=1, max_length=6000)
 
 
 class PostCreate(PostBase):

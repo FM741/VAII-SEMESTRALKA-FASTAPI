@@ -5,8 +5,10 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 
 from app.crud import post as crud_post
-from app.dependencies import get_db, auth_scheme
+from app.crud import topic as crud_topic
+from app.dependencies import get_db
 from app.routers.auth import get_current_user
+from app.schemas.exception import ExceptionHandler
 from app.schemas.post import PostCreate, PostDB, PostUpdate
 from app.schemas.user import UserDB
 
@@ -17,11 +19,15 @@ router = APIRouter(dependencies=[Depends(get_db), Security(get_current_user, sco
 @router.post("/add", response_model=PostDB)
 def create_post(post: PostCreate, current_user: Annotated[UserDB, Security(get_current_user, scopes=["user"])],
                 db: Session = Depends(get_db)):
+    topic = crud_topic.get_by_topic_id_db(post.topic_id, db)
+    if not topic:
+        raise ExceptionHandler(status_code=404, detail="Topic not found can't add post")
     return crud_post.create_post_db(post, current_user.id, db)
 
 
 @router.get("/all", response_model=list[PostDB])
-def get_all_posts(db: Session = Depends(get_db)):
+def get_all_posts(current_user: Annotated[UserDB, Security(get_current_user, scopes=["admin"])],
+                  db: Session = Depends(get_db)):
     return crud_post.get_all_posts_db(db)
 
 

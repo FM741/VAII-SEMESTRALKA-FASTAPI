@@ -20,16 +20,16 @@
                 <div class="form-col">
                     <div class="form-row">
                         <label for="topic_name">Topic Name</label> <br>
-                        <input type="text" name="topic_name" id="topic_name" placeholder="Enter topic name...">
+                        <input type="text" name="topic_name" id="topic_name" placeholder="Enter topic name..." required minlength="5" maxlength="32">
                     </div>
 
                     <div class="form-row">
                         <label for="post_header">Header:</label> <br>
-                        <input type="text" name="post_header" id="post_header" placeholder="Enter post header...">
+                        <input type="text" name="post_header" id="post_header" placeholder="Enter post header..." required minlength="3" maxlength="64">
                     </div>
                     <div class="form-row">
                     <textarea name="body" id="post_body" cols="60" rows="10"
-                              placeholder="Write your post..."></textarea>
+                              placeholder="Write your post..." required minlength="1" maxlength="6000"></textarea>
                     </div>
                     <div class="form-row">
                         <button class="default-button">Submit</button>

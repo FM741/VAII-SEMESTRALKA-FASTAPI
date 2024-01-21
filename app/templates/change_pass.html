@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/css/styles.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon/favicon-16x16.png">
+    <title>Cats;Gate</title>
+</head>
+<body>
+<div class="index-main">
+    {% include 'nav.html' %}
+    <div class="wrapper-content">
+        <div class="register form">
+            <div class="form-row">
+                <h2>Change password</h2>
+            </div>
+            <form onsubmit="changePass(); return false;">
+                <div class="form-col">
+                    <div class="form-row">
+                        <label for="password">Password</label> <br>
+                        <input type="password" name="password" id="password" placeholder="Enter password..." required
+                               minlength="5" onkeyup="validate_password()">
+                    </div>
+                    <div class="form-row">
+                        <label for="passcheck">Repeat Password</label> <br>
+                        <input type="password" id="passcheck" placeholder="Enter password again..."
+                               onkeyup="validate_password()" required>
+                    </div>
+
+                    <div class="form-row">
+                        <button id="confirm-register" class="default-button" disabled>Change password</button>
+                    </div>
+                    <div class="form-row error-detail align-center" id="error">
+                    </div>
+                    <div id="check_failed" class="align-center"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <footer></footer>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/static/js/scripts.js"></script>
+</body>
+</html>

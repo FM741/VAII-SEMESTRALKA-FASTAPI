@@ -21,11 +21,11 @@
                     <div class="form-row">
                         <label for="post_header">Header:</label> <br>
                         <input type="text" name="header" id="post_header" placeholder="Enter post header..."
-                               value="{{ post.header }}">
+                               value="{{ post.header }}" required minlength="3" maxlength="64">
                     </div>
                     <div class="form-row">
                     <textarea name="body" id="post_body" cols="60" rows="10"
-                              placeholder="Write post body...">{{ post.body }}</textarea>
+                              placeholder="Write post body..." required minlength="1" maxlength="6000">{{ post.body }}</textarea>
                     </div>
                     <div class="form-row">
                         <button class="default-button">Submit</button>
