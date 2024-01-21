@@ -35,7 +35,7 @@ def get_password_hash(password):
 
 
 def authenticate_user(username: str, password: str, db: Session = Depends(get_db)):
-    user = crud_user.get_user_by_username(username, db)
+    user = crud_user.get_user_by_username_db(username, db)
     if not user:
         return False
     if not verify_password(password, user.password):
@@ -56,10 +56,6 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
 
 def get_current_user(security_scopes: SecurityScopes, access_token: str = Cookie(None),
                      db: Session = Depends(get_db)):
-    if security_scopes.scopes:
-        authenticate_value = f'Bearer scope="{security_scopes.scope_str}"'
-    else:
-        authenticate_value = "Bearer"
     exception = ExceptionHandler(status_code=403, detail="Not enough permissions",
                                  headers={"error_place": "permissions"})
     try:
@@ -77,7 +73,7 @@ def get_current_user(security_scopes: SecurityScopes, access_token: str = Cookie
     for scope in security_scopes.scopes:
         if scope not in token_data.scopes:
             raise exception
-    user = crud_user.get_user_by_username(token_data.username, db)
+    user = crud_user.get_user_by_username_db(token_data.username, db)
     if user is None:
         return None
     return UserAll(id=user.id, username=user.username, gender=user.gender, date_of_creation=user.date_of_creation,
@@ -88,12 +84,16 @@ def get_current_user(security_scopes: SecurityScopes, access_token: str = Cookie
 @router.post("/token")
 def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], response: Response = None,
                            db: Session = Depends(get_db)) -> Token:
+    if form_data is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Please fill the username and password",
+        )
     user = authenticate_user(form_data.username, form_data.password, db)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
-            headers={"WWW-Authenticate": "Bearer"},
         )
     if user.is_admin:
         form_data.scopes = ["guest", "user", "admin"]

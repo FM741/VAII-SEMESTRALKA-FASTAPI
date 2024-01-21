@@ -5,7 +5,12 @@
                 <ul>
                     <li><a href="/"> Home</a></li>
                     {% if user is not none %}
-                        <li><a href="/crud/user/me"> {{ user.username }} </a></li>
+                        <li>
+                            <form action="/logout" method="POST">
+                                <button type="submit" name="logout" value="logout">Go</button>
+                            </form>
+                        </li>
+                        <li><a href="/profile/{{ user.username }}"> {{ user.username }} </a></li>
                     {% else %}
                         {% if request.url.path != "/register" %}
                             <li><a href="/register"> Register </a></li>
@@ -20,7 +25,12 @@
         <ul class="nav-list">
             <li><a href="/"> Cats;Gate</a></li>
             {% if user is not none %}
-                <li><a href="/me"> {{ user.username }} </a></li>
+                <li>
+                    <form id="logout" method="POST">
+                        <button type="submit" name="logout" value="logout" class="confirm-button">Logout</button>
+                    </form>
+                </li>
+                <li><a href="/profile/{{ user.username }}"> {{ user.username }} </a></li>
             {% else %}
                 {% if request.url.path != "/register" %}
                     <li><a href="/register"> Register </a></li>

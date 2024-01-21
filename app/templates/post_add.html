@@ -14,13 +14,14 @@
     <div class="wrapper-content">
         <div class="fit align-center">
             <div class="form-row">
-                    <h2>Write your post:</h2>
-                </div>
+                <h2>Write your post:</h2>
+            </div>
             <div class="form-col">
                 <form onsubmit="submitPost(); return false;">
                     <div class="form-row">
                         <label for="header">Header:</label> <br>
-                        <input type="text" name="header" id="header" placeholder="Enter post header...">
+                        <input type="text" name="header" id="header" placeholder="Enter post header..."
+                               {% if request.query_params.get("header") %} value="Re: {{ request.query_params.get("header") }} {% endif %}">
                     </div>
                     <div class="form-row">
                     <textarea name="body" id="text-area" cols="60" rows="10"

@@ -1,11 +1,3 @@
-function scrollNavbar() {
-    if (window.scrollY >= navbarPos) {
-        navbar.classList.add("sticky");
-    } else {
-        navbar.classList.remove("sticky", "");
-    }
-}
-
 const dropdownBtn = document.querySelector(".navbar-collapse");
 const content = document.querySelector(".navbar-collapse-content");
 
@@ -206,8 +198,7 @@ const submitUser = () => {
     let user = {
         "username": $("#username").val(),
         "password": $("#password").val(),
-        "gender": $('input[name="gender"]:checked').val(),
-        "date_of_creation": new Date(),
+        "gender": $('input[name="gender"]:checked').val()
     };
     $.ajax({
         url: "/crud/user/add",
@@ -216,8 +207,30 @@ const submitUser = () => {
         dataType: "json",
         contentType: "application/json",
         success: function (data) {
-            console.log("success", data);
-            window.location = "/";
+            let logUser = {
+                "username": user.username,
+                "password": user.password,
+            };
+            loginUser(logUser)
+        },
+        error: function (xhr, error) {
+            let message = JSON.parse(xhr.responseText).detail;
+            $("#error").html(message);
+        }
+    });
+}
+
+const submitImage = () => {
+    let form = $("#form-img")[0];
+    let formData = new FormData(form)
+    $.ajax({
+        url: "/crud/user/uploadimage/",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            location.reload()
         },
         error: function (xhr, error) {
             let message = JSON.parse(xhr.responseText).detail;
@@ -227,12 +240,17 @@ const submitUser = () => {
 }
 
 
-const loginUser = () => {
-    console.log('request_body_param pushed')
+const login = () => {
     let user = {
         "username": $("#username").val(),
         "password": $("#password").val(),
     };
+    loginUser(user)
+}
+
+
+const loginUser = (user) => {
+    console.log('request_body_param pushed')
     $.ajax({
         url: "/token",
         type: "POST",
@@ -252,6 +270,28 @@ const loginUser = () => {
     });
 }
 
+$(function () {
+    $('#logout').submit(function () {
+        $.ajax({
+            type: 'POST',
+            url: '/logout',
+            success: function () {
+                location.reload();
+            },
+        });
+        return false;
+    });
+})
+
 const dangerousCheck = () => {
     return confirm("Are you sure? This might delete all children!") === false;
 }
+
+document.querySelectorAll(".toLocal").forEach(
+    function (i) {
+        i.innerText = new Date(i.innerText + "Z").toLocaleString('en-US', {
+            weekday: "long", year: "numeric",
+            month: "short", day: "numeric", hour: "numeric", minute: "numeric", hour12: false
+        });
+    }
+);

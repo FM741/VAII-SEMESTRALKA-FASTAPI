@@ -19,7 +19,7 @@
             <div class="content-posts"> Topics</div>
             <div class="content-last-post">Last post</div>
         </div>
-        {% for forum in pagination.items %}
+        {% for forum in pagination.items | sort(attribute='id') %}
             <div class="content ">
                 <a href="/forum/{{ forum.id }}">
                     <div class="content-forum"> {{ forum.name }}</div>
@@ -43,17 +43,22 @@
         {% endfor %}
     </div>
     <footer>
-        <a href="/add">ADD FORUM</a>
-        {% if page > 1 %}
-            <a href="{{ url_for('index').include_query_params(page = page - 1) }}">PREV</a>
-        {% endif %}
-        {% for pages in range(pagination.pages) %}
-            <a href="{{ url_for('index').include_query_params(page = pages + 1) }}" {% if page == pages + 1 %}
-               class='disabled' {% endif %}>{{ pages + 1 }}</a>
-        {% endfor %}
-        {% if page < pagination.pages %}
-            <a href="{{ url_for('index').include_query_params(page = page + 1) }}">NEXT</a>
-        {% endif %}
+        <div class="align-center pagination fs-big">
+            {% if user.is_admin %}
+                <a href="/add">ADD FORUM</a>
+            {% endif %}
+            {% if page > 1 %}
+                <a href="{{ url_for('index').include_query_params(page = page - 1) }}">PREV</a>
+            {% endif %}
+            {% for pages in range(pagination.pages) %}
+                <a href="{{ url_for('index').include_query_params(page = pages + 1) }}" {% if page == pages + 1 %}
+                   class='disabled' {% endif %}>{{ pages + 1 }}</a>
+            {% endfor %}
+            {% if page < pagination.pages %}
+                <a href="{{ url_for('index').include_query_params(page = page + 1) }}">NEXT</a>
+            {% endif %}
+
+        </div>
     </footer>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

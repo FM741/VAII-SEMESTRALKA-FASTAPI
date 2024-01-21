@@ -32,23 +32,23 @@
             <div class="form-row">
                 <h2>Login</h2>
             </div>
-            <form onsubmit="loginUser(); return false;">
+            <form onsubmit="login(); return false;">
                 <div class="form-col error">
                     <div class="form-row">
                         <label for="username">Username</label> <br>
-                        <input type="text" name="username" id="username" placeholder="Enter username...">
+                        <input type="text" name="username" id="username" placeholder="Enter username..." required>
                     </div>
                     <div class="form-row">
                         <label for="password">Password</label> <br>
-                        <input type="password" name="password" id="password" placeholder="Enter password...">
+                        <input type="password" name="password" id="password" placeholder="Enter password..." >
                     </div>
                     <div class="form-row">
-                        <button>Login</button>
+                        <button class="default-button">Login</button>
                     </div>
                     <div class="form-row">
                         <a href="passreset.html" class="forgot-password"> Forgot password? </a>
                     </div>
-                    <div class="form-row" id="error">
+                    <div class="form-row fs-medium" id="error">
                     </div>
 
                 </div>

@@ -7,7 +7,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon/favicon-16x16.png">
     <title>Cats;Gate</title>
-
 </head>
 <body>
 <div class="index-main">
@@ -25,20 +24,24 @@
             </div>
             <hr>
         </div>
-        {% for post in pagination.items %}
+        {% for post in pagination.items | sort(attribute='id') %}
             <div class="topic-content">
                 <div class="topic-content-body ">
                     <div class="topic-content-author align-center">
                         <img class="user-image" src="{{ post.user.img_url }}" alt="User image"> <br>
-                        <p class="username"> {{ post.user.username }} </p>
-                        <button id="delete_post" onclick="deletePost()">Remove Post</button>
-                        <button id="edit_post" onclick="window.location = '/post/{{ post.id }}'">Edit Post</button>
-
+                        <p class="fs-medium"> {{ post.user.username }} </p>
+                        <p class="fs-small toLocal">{{ post.user.date_of_creation }} </p>
+                        {% if post.user_id == user.id or user.is_admin %}
+                            <button id="delete_post" onclick="deletePost()">Remove Post</button>
+                            <button id="edit_post" onclick="window.location = '/post/{{ post.id }}'">Edit Post</button>
+                        {% endif %}
                     </div>
                     <div class="vl"></div>
                     <div class="topic-content-message">
                         <div class="topic-content-message-header">{{ post.header }}</div>
                         <div class="topic-content-message-body">{{ post.body }}</div>
+                        <div class="topic-content-message-footer"><a
+                                href="/topic/{{ topic_id }}/add?header={{ post.header }}">Reply</a></div>
                     </div>
                 </div>
             </div>
@@ -47,18 +50,19 @@
         {% endfor %}
     </div>
     <footer>
-        <a href="/topic/{{ topic_id }}/add">Post Reply</a>
-        {% if page > 1 %}
-            <a href="{{ url_for('posts', topic_id=topic_id).include_query_params(page = page - 1) }}">PREV</a>
-        {% endif %}
-        {% for pages in range(pagination.pages) %}
-            <a href="{{ url_for('posts', topic_id=topic_id).include_query_params(page = pages + 1) }}"
-                    {% if page == pages + 1 %}
-               class='disabled' {% endif %}>{{ pages + 1 }}</a>
-        {% endfor %}
-        {% if page < pagination.pages %}
-            <a href="{{ url_for('posts', topic_id=topic_id).include_query_params(page = page + 1) }}">NEXT</a>
-        {% endif %}
+        <div class="align-center pagination fs-big">
+            {% if page > 1 %}
+                <a href="{{ url_for('posts', topic_id=topic_id).include_query_params(page = page - 1) }}">PREV</a>
+            {% endif %}
+            {% for pages in range(pagination.pages) %}
+                <a href="{{ url_for('posts', topic_id=topic_id).include_query_params(page = pages + 1) }}"
+                        {% if page == pages + 1 %}
+                   class='disabled' {% endif %}>{{ pages + 1 }}</a>
+            {% endfor %}
+            {% if page < pagination.pages %}
+                <a href="{{ url_for('posts', topic_id=topic_id).include_query_params(page = page + 1) }}">NEXT</a>
+            {% endif %}
+        </div>
     </footer>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

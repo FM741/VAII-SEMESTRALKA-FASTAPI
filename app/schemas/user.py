@@ -1,7 +1,9 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Literal
 
-from pydantic import BaseModel, Field, ConfigDict
+from fastapi import HTTPException
+from pydantic import BaseModel, Field, ConfigDict, field_validator
+from starlette import status
 
 from app.schemas.post import PostDB
 from app.schemas.topic import TopicDB
@@ -31,9 +33,8 @@ class UserDBPass(BaseModel):
 
 class UserCreate(BaseModel):
     username: str = Field(min_length=5, max_length=16)
-    gender: str
-    date_of_creation: datetime
-    password: str
+    gender: Literal["Male", "Female", "Other"]
+    password: str = Field(min_length=5)
 
 
 class UserUpdate(BaseModel):

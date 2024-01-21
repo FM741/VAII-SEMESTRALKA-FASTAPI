@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/static/css/styles.css" rel="stylesheet">
+    <link href="../static/css/styles.css" rel="stylesheet">
     <link rel="icon" type="image/png" sizes="32x32" href="static/img/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="static/img/favicon/favicon-16x16.png">
     <title>Cats;Gate</title>
@@ -13,17 +13,32 @@
 <div class="index-main">
     {% include 'nav.html' %}
     <div class="wrapper-content">
-        {{ user.username }} <br>
-        {{ user.date_of_creation }} <br>
-        {{ user.gender }} <br>
-        {{ user.posts | count }} <br>
-        <img src="{{ user.img_url }}" alt="user_image"> <br>
-        <form action="crud/user/uploadimage/" method="POST" enctype="multipart/form-data">
-            <input type="file" name="file"/>
-            <input type="submit"/>
-        </form>
+        <div class="profile-content">
+            <div class="profile-content-body">
+                <div class="profile-content-row1">
+                    <span class="fs-big">Profile page:</span> <br>
+                    <hr>
+                    Username: {{ userProfile.username }} <br>
+                    Profile created: <span class="toLocal">{{ userProfile.date_of_creation }}</span> <br>
+                    <img src="{{ userProfile.img_url }}" class="user-image" alt="user_image"> <br>
+                    <form onsubmit="submitImage(); return false;" id="form-img">
+                        <input type="file" name="file"/> <br>
+                        <button class="default-button">Change profile picture</button>
+                    </form>
+                    <div id="error">
+                    </div>
+                </div>
+                <div class="vl"></div>
+                <div class="profile-content-row2">
+                    <span class="fs-big">User information:</span> <br>
+                    <hr>
+                    Gender: {{ userProfile.gender }} <br>
+                    Posts count: {{ userProfile.posts | count }} <br>
+                    Topics count: {{ userProfile.topics | count }} <br>
+                </div>
+            </div>
+        </div>
     </div>
-
     <footer>
     </footer>
 </div>

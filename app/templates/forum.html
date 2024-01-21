@@ -42,18 +42,20 @@
         {% endfor %}
     </div>
     <footer>
-        <a href="/forum/{{ forum_id }}/add">ADD TOPIC</a>
-        {% if page > 1 %}
-            <a href="{{ url_for('topics', forum_id=forum_id).include_query_params(page = page - 1) }}">PREV</a>
-        {% endif %}
-        {% for pages in range(pagination.pages) %}
-            <a href="{{ url_for('topics', forum_id=forum_id).include_query_params(page = pages + 1) }}"
-                    {% if page == pages + 1 %}
-               class='disabled' {% endif %}>{{ pages + 1 }}</a>
-        {% endfor %}
-        {% if page < pagination.pages %}
-            <a href="{{ url_for('topics', forum_id=forum_id).include_query_params(page = page + 1) }}">NEXT</a>
-        {% endif %}
+        <div class="align-center pagination fs-big">
+            <a href="/forum/{{ forum_id }}/add">ADD TOPIC</a>
+            {% if page > 1 %}
+                <a href="{{ url_for('topics', forum_id=forum_id).include_query_params(page = page - 1) }}">PREV</a>
+            {% endif %}
+            {% for pages in range(pagination.pages) %}
+                <a href="{{ url_for('topics', forum_id=forum_id).include_query_params(page = pages + 1) }}"
+                        {% if page == pages + 1 %}
+                   class='disabled' {% endif %}>{{ pages + 1 }}</a>
+            {% endfor %}
+            {% if page < pagination.pages %}
+                <a href="{{ url_for('topics', forum_id=forum_id).include_query_params(page = page + 1) }}">NEXT</a>
+            {% endif %}
+        </div>
     </footer>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

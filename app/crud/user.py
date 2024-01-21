@@ -25,14 +25,14 @@ def get_by_user_id_db(user_id: int, db: Session):
 def create_user_db(user: UserCreate, db: Session):
     hashed = get_password_hash(user.password)
     db_user = models.User(username=user.username, password=hashed, gender=user.gender,
-                          date_of_creation=user.date_of_creation, is_admin=False, img_url="/static/img/user.png")
+                          date_of_creation=datetime.datetime.now().isoformat(), is_admin=False, img_url="/static/img/user.png")
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
     return db_user
 
 
-def get_user_by_username(username: str, db: Session):
+def get_user_by_username_db(username: str, db: Session):
     stmt = select(models.User).where(models.User.username == username)
     user = db.scalars(stmt).first()
     return user

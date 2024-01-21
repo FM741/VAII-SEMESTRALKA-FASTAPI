@@ -12,7 +12,7 @@ from app.dependencies import get_db
 from app.routers.auth import get_current_user
 from app.routers.forum import get_all_forums, get_forum_by_id
 from app.routers.topic import get_topic_by_id
-from app.schemas.exception import ExceptionHandler
+from app.routers.user import get_user_by_username
 from app.schemas.user import UserDB, UserAll
 
 router = APIRouter(dependencies=[Depends(get_db)], tags=["Html"])
@@ -31,8 +31,7 @@ def get_html_index(request: Request, current_user: Annotated[UserDB, Security(ge
 
 @router.get("/add", response_class=HTMLResponse)
 def get_html_create_forum(request: Request,
-                          current_user: Annotated[UserDB, Security(get_current_user, scopes=["admin"])],
-                          db: Session = Depends(get_db)):
+                          current_user: Annotated[UserDB, Security(get_current_user, scopes=["admin"])]):
     return templates.TemplateResponse("forum_add.html", {"request": request, "user": current_user})
 
 
@@ -48,8 +47,7 @@ def get_html_forum_by_id(request: Request, forum_id: int,
 
 @router.get("/forum/{forum_id}/add", response_class=HTMLResponse)
 def get_html_create_topic(request: Request,
-                          current_user: Annotated[UserDB, Security(get_current_user, scopes=["user"])],
-                          db: Session = Depends(get_db)):
+                          current_user: Annotated[UserDB, Security(get_current_user, scopes=["user"])]):
     return templates.TemplateResponse("topic_add.html", {"request": request, "user": current_user})
 
 
@@ -74,29 +72,26 @@ def get_html_patch_topic(request: Request, topic_id: int,
 @router.get("/topic/{topic_id}", response_class=HTMLResponse, name="posts")
 def get_html_topic_by_id(request: Request, topic_id: int,
                          current_user: Annotated[UserDB, Security(get_current_user, scopes=["guest"])],
-                         page: int = 1,
-                         db: Session = Depends(get_db)):
+                         page: int = 1, db: Session = Depends(get_db)):
     posts = get_topic_by_id(topic_id, page, db)
     return templates.TemplateResponse("topic.html",
                                       {"request": request, "pagination": posts, "user": current_user, "page": page,
                                        "topic_id": topic_id})
 
 
-@router.get("/topic/{topic_id}/add", response_class=HTMLResponse)
-def get_html_create_post(request: Request, current_user: Annotated[UserDB, Security(get_current_user, scopes=["user"])],
-                         db: Session = Depends(get_db)):
+@router.get("/topic/{topic_id}/add", response_class=HTMLResponse, name="add_post")
+def get_html_create_post(request: Request,
+                         current_user: Annotated[UserDB, Security(get_current_user, scopes=["user"])]):
     return templates.TemplateResponse("post_add.html", {"request": request, "user": current_user})
 
 
 @router.get("/login", response_class=HTMLResponse, name="login")
-def get_html_login(request: Request, current_user: Annotated[UserDB, Security(get_current_user, scopes=["guest"])],
-                   db: Session = Depends(get_db)):
+def get_html_login(request: Request, current_user: Annotated[UserDB, Security(get_current_user, scopes=["guest"])]):
     return templates.TemplateResponse("login.html", {"request": request, "user": current_user})
 
 
 @router.get("/register", response_class=HTMLResponse, name="register")
-def get_html_register(request: Request, current_user: Annotated[UserDB, Security(get_current_user, scopes=["guest"])],
-                      db: Session = Depends(get_db)):
+def get_html_register(request: Request, current_user: Annotated[UserDB, Security(get_current_user, scopes=["guest"])]):
     return templates.TemplateResponse("register.html", {"request": request, "user": current_user})
 
 
@@ -108,11 +103,13 @@ def get_html_patch_post(request: Request, post_id: int,
     return templates.TemplateResponse("post_edit.html", {"request": request, "post": post_db, "user": current_user})
 
 
-@router.get("/me", response_class=HTMLResponse)
+@router.get("/profile/{username}", response_class=HTMLResponse)
 def get_html_patch_post(request: Request,
                         current_user: Annotated[UserAll, Security(get_current_user, scopes=["user"])],
+                        username: str,
                         db: Session = Depends(get_db)):
-    return templates.TemplateResponse("user.html", {"request": request, "user": current_user})
+    user = get_user_by_username(username, current_user, db)
+    return templates.TemplateResponse("user.html", {"request": request, "user": current_user, "userProfile": user})
 
 
 def exception_handler(request: Request, exc: HTTPException):
